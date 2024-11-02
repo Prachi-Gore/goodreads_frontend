@@ -1,0 +1,14 @@
+/* Link styling */
+.link {
+    color: white; /* Replace with your desired color */
+    text-decoration: none;
+  }
+  
+  .link:hover,
+  .link:focus,
+  .link:active,
+  .link:visited {
+    color: white; /* Ensure the same color on hover, focus, active, and visited */
+    text-decoration: none; /* Optionally remove underline */
+  }
+  
