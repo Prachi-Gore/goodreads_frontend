@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import Layout from "Layouts/Layout";
 import { useEffect } from 'react';
 import { BiUser } from 'react-icons/bi';
@@ -27,10 +28,10 @@ export default function BookDescription() {
                             <img className="w-3/4 h-full" src={`http://localhost:8000/api${bookDetails?.book_cover}`}/>
                         </div>
                         <div className='flex flex-col items-center justify-center gap-10'>
-                            <div className='text-white text-4xl'>
+                            <div className='text-black text-4xl'>
                                 {bookDetails?.title}
                             </div>
-                            <div className='text-white text-xl w-3/4'>
+                            <div className='text-black text-xl w-3/4'>
                                 {bookDetails?.description}
                             </div>
                             <div className=' flex justify-start gap-5 items-center text-2xl text-yellow-400'>
@@ -41,16 +42,16 @@ export default function BookDescription() {
                                     {bookDetails?.author?.author_name}
                                 </div>
                             </div> 
-                            <div className='tabs tabs-boxed flex justify-start items-start flex-wrap gap-3'>
+                            <div className='flex justify-start items-start flex-wrap gap-3'>
                                 {bookDetails?.genres?.map((genre) => {
-                                    return <div key={genre?.id} className="tab tab-active text-xl px-2 py-1">{genre.genre_name}</div>; 
+                                    return <div key={genre?.id} className="bg-green-400 text-xl px-2 py-1 rounded-md">{genre.genre_name}</div>; 
                                 })}
                             </div>
                             <div className='text-xl'>
                                 Pages: <span className='text-yellow-400'>{bookDetails?.pages}</span>
                             </div>
                             <div className='text-xl'>
-                                Publish Date: <span className='text-yellow-400'>{bookDetails?.publishDate}</span>
+                                Publish Date: <span className='text-yellow-400'>{dayjs(bookDetails?.publishDate).format("DD MMM YYYY")}</span>
                             </div>
                             <div>
                             <details className="dropdown mb-32">

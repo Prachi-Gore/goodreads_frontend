@@ -12,7 +12,7 @@ export default function Shelf() {
     const [activeShelf, setActiveShelf] = useState(null);
     const [books, setBooks] = useState([]);
     const [shelfInput, setShelfInput] = useState("");
-
+console.log("shelfState ",shelfState)
     async function loadShelfs() {
         if(shelfState.shelfList.length == 0) {
             const response = await dispatch(getAllBookShelves());
@@ -42,18 +42,18 @@ export default function Shelf() {
     return (
         <Layout>
             <div className='flex justify-start items-start gap-32'>
-                <div className='flex flex-col justify-start items-start'>
+                <div className='flex flex-col justify-start items-start pl-4'>
                     {shelfState.shelfList.length > 0 && shelfState.shelfList.map((shelf) => {
                         return (
-                            <div onClick={() => changeActiveShelf(shelf._id)} key={shelf._id} className='mt-3 mb-3  w-full'>
-                                <button className={`btn-${activeShelf == shelf._id ? 'primary' : 'warning'} py-1 text-2xl rounded-md px-2 w-full`}>{shelf.name}</button>
+                            <div onClick={() => changeActiveShelf(shelf.id)} key={shelf.id} className='mt-3 mb-3  w-full'>
+                                <button className={`btn-${activeShelf == shelf.id ? 'primary' : 'warning'} py-1 text-2xl rounded-md px-2 w-full`}>{shelf.name}</button>
                              </div>
                         );
                     })}
                     <div>
                         <input 
-                            className='p-4 bg-white rounded-sm mb-4 text-black' 
-                            placeholder='shelf name' 
+                            className='p-4 bg-white rounded-sm mb-4 text-black border-2 border-blue-500' 
+                            placeholder='Enter shelf name' 
                             onChange={(e) => {
                                 setShelfInput(e.target.value);
                             }}
@@ -87,14 +87,14 @@ export default function Shelf() {
                     {/* row 1 */}
                     {books.length > 0 && books.map(book => {
                         return (
-                            <tr className='hover:bg-slate-700' key={book.id} onClick={() => {
-                                navigate("/book/description", {state: {...book}});
+                            <tr className='hover:bg-slate-100' key={book.id} onClick={() => {
+                                navigate(`/book/${book.id}`);
                             }}>
                                 <td>
                                     <div className="flex items-center space-x-3">
                                         <div className="avatar">
                                         <div className="mask mask-squircle w-12 h-12">
-                                            <img src={BookImage} alt="Book Image" />
+                                            <img src={`http://localhost:8000/api${book?.book_cover}`} alt="Book Image" />
                                         </div>
                                         </div>
                                         <div>
@@ -102,9 +102,9 @@ export default function Shelf() {
                                         </div>
                                     </div>
                                 </td>
-                                <td>5</td>
+                                <td>{book?.rating}</td>
                                 <th>
-                                <button className="btn btn-ghost btn-xs text-l hover:bg-primary">details</button>
+                                <button className="btn btn-ghost btn-xs text-l">details</button>
                                 </th>
                         </tr>
                         );
@@ -112,13 +112,13 @@ export default function Shelf() {
                     
                     </tbody>
                     {/* foot */}
-                    <tfoot>
+                    {/* <tfoot>
                     <tr>
                         <th>Title</th>
                         <th>Rating</th>
                         <th></th>
                     </tr>
-                    </tfoot>
+                    </tfoot> */}
                     
                 </table>
                 )}
