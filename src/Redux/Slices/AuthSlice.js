@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "Configs/axiosInstance";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
     isLoggedIn: localStorage.getItem('isLoggedIn') || false,
@@ -86,8 +87,7 @@ const authSlice = createSlice({
                 localStorage.setItem("token", JSON.stringify(action?.payload?.data?.token));
             }
         }).addCase(logout.fulfilled, (state, action) => {
-            console.log('action logout ',action);
-            if(action?.payload?.data) {
+            if(action?.payload?.status===200) {
                 state.isLoggedIn = false;
                 state.username = '';
                 state.token = {refresh:'',access:''};

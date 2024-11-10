@@ -12,8 +12,11 @@ const navigate=useNavigate();
 
     // console.log('accessToken ',accessToken,typeof parsToken);
     const dispatch = useDispatch();
-    function onLogout() {
-        dispatch(logout({data:{refresh:refreshToken},accessToken}));
+   async function onLogout() {
+      const response= await dispatch(logout({data:{refresh:refreshToken},accessToken}));
+      if(response?.payload?.status===200){
+        navigate('/dashboard')
+      }
     }
 function onShelfClick() {
 navigate("/shelf");

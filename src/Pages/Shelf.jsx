@@ -1,9 +1,10 @@
-import BookImage from 'Assets/Images/book.jpg';
 import Layout from "Layouts/Layout";
 import { useEffect, useState } from 'react';
+import ReactStars from "react-rating-stars-component";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createShelf, getAllBookShelves } from 'Redux/Slices/ShelfSlice';
+
 export default function Shelf() {
 
     const shelfState = useSelector((state) => state.shelf);
@@ -87,9 +88,7 @@ console.log("shelfState ",shelfState)
                     {/* row 1 */}
                     {books.length > 0 && books.map(book => {
                         return (
-                            <tr className='hover:bg-slate-100' key={book.id} onClick={() => {
-                                navigate(`/book/${book.id}`);
-                            }}>
+                            <tr className='hover:bg-slate-100' key={book.id} >
                                 <td>
                                     <div className="flex items-center space-x-3">
                                         <div className="avatar">
@@ -102,9 +101,22 @@ console.log("shelfState ",shelfState)
                                         </div>
                                     </div>
                                 </td>
-                                <td>{book?.rating}</td>
+                                <td>
+                                <ReactStars
+    count={5}
+    size={24}
+    value={book?.rating}
+    isHalf={true}
+    emptyIcon={<i className="far fa-star"></i>}
+    halfIcon={<i className="fa fa-star-half-alt"></i>}
+    fullIcon={<i className="fa fa-star"></i>}
+    activeColor="#ffd700"
+    edit={false}
+  /></td>
                                 <th>
-                                <button className="btn btn-ghost btn-xs text-l">details</button>
+                                <button className="btn btn-ghost btn-xs text-l"onClick={() => {
+                                navigate(`/book/${book.id}`);
+                            }}>details</button>
                                 </th>
                         </tr>
                         );

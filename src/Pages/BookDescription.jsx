@@ -15,9 +15,9 @@ export default function BookDescription() {
 
     console.log('bookDetails ',bookDetails);
 
-    useEffect(() => {
+    useEffect( () => {
         if(id) dispatch(getBookDetails(id));
-        // dispatch(getAllBookShelves());
+        dispatch(getAllBookShelves());
     }, [id,dispatch]);
     return (
         <Layout>
@@ -54,13 +54,17 @@ export default function BookDescription() {
                                 Publish Date: <span className='text-yellow-400'>{dayjs(bookDetails?.publishDate).format("DD MMM YYYY")}</span>
                             </div>
                             <div>
-                            <details className="dropdown mb-32">
+                            <details className="dropdown mb-32" id='shelf-dropdown'>
                                 <summary className="m-1 btn">Add to Shelf</summary>
                                 <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-200 rounded-box w-52">
                                     {shelfState.shelfList.length > 0 && shelfState.shelfList.map((shelf) => {
                                         return <li onClick={async () => {
-                                            await dispatch(addBookToShelf({shelfName: shelf.name, bookId: bookDetails?.id}));
-                                            await dispatch(getAllBookShelves());
+                                           const response= await dispatch(addBookToShelf({shelfName: shelf.name, bookId: bookDetails?.id}));
+                                          const element=  document.getElementById('shelf-dropdown');
+                                          if (response?.payload?.status===200 && element.hasAttribute("open")) {
+                                            element.removeAttribute("open"); // Removes the 'open' attribute
+                                        }
+                                            // await dispatch(getAllBookShelves());
                                         }} className='text-black' key={shelf.id}><a>{shelf.name}</a></li>;
                                     })}
                                 </ul>
