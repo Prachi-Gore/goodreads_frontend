@@ -23,7 +23,7 @@ export default function BookDescription() {
         <Layout>
             {
                 bookDetails?.id && (
-                    <div className="my-5 flex items-center justify-center gap-5 flex-col md:flex-row">
+                    <div className="my-5 flex items-center justify-center gap-5 flex-col md:flex-row pt-28">
                         <div className="basis-1/4 h-1/5 flex justify-center">
                             <img className="w-3/4 h-full" src={`http://localhost:8000/api${bookDetails?.book_cover}`}/>
                         </div>

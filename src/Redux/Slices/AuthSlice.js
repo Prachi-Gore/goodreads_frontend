@@ -1,14 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "Configs/axiosInstance";
 import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 
 const initialState = {
     isLoggedIn: localStorage.getItem('isLoggedIn') || false,
     username: localStorage.getItem('username') || '',
     token: JSON.parse(localStorage.getItem('token')) || {refresh:'',access:''},
 };
-
 export const signup = createAsyncThunk("auth/signup", async (data) => {
     try {
         const response = axiosInstance.post("register/", data);

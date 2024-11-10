@@ -42,7 +42,7 @@ console.log("shelfState ",shelfState)
 
     return (
         <Layout>
-            <div className='flex justify-start items-start gap-32'>
+            <div className='flex justify-start items-start gap-32 pt-28'>
                 <div className='flex flex-col justify-start items-start pl-4'>
                     {shelfState.shelfList.length > 0 && shelfState.shelfList.map((shelf) => {
                         return (

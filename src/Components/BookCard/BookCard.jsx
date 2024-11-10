@@ -1,7 +1,9 @@
 import { BiUser } from 'react-icons/bi';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 export default function BookCard({ data }) {
     const navigate = useNavigate();
+    const authState=useSelector(state=>state?.auth)
     return (
         <div className="book-card-container">
             <figure className='h-[300px] w-full'>
@@ -15,7 +17,8 @@ export default function BookCard({ data }) {
                         onClick={() => {
                             navigate(`/book/${data?.id}`);
                         }}
-                        className="px-2 py-1 rounded-lg btn-primary ml-2">
+                        disabled={!authState?.isLoggedIn}
+                        className={`px-2 py-1 rounded-lg ml-2  ${!authState?.isLoggedIn ? 'cursor-not-allowed bg-gray-300':'bg-blue-500'}`}>
                             More Details
                         </button>
                     {/* </div> */}

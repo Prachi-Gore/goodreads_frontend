@@ -30,7 +30,7 @@ export default function Dashboard() {
   const settings = sliderSettings(bookState.bookList);
     return (
         <Layout>
-             <div className="px-12 py-6">
+             <div className="px-12 pt-28 pb-12">
            {  bookState.bookList.length > 0 &&  <Slider {...settings} className="">
             { bookState.bookList.map(book => 
                 
