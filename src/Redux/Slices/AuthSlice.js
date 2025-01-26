@@ -62,7 +62,16 @@ try{
     }
 }
 });
-
+// Refresh Token
+export const refreshToken = createAsyncThunk("auth/refreshAccessToken", async (refresh, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post("refresh_access_token/", { refresh });
+      return response.data; // { access: "new_access_token" }
+    } catch (error) {
+      toast.error("Session expired. Please log in again."); // by passing refresh token we get new access token but when both token expired user has to login again
+      return rejectWithValue(error.response?.data);
+    }
+  });
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -91,6 +100,17 @@ const authSlice = createSlice({
                 state.token = {refresh:'',access:''};
                 localStorage.clear();
             }
+        })
+         // Handle Refresh Token
+        .addCase(refreshToken.fulfilled, (state, action) => {
+          state.token.access = action?.payload?.access;
+          localStorage.setItem("token", JSON.stringify(state.token));
+        })
+        .addCase(refreshToken.rejected, (state) => {
+          state.isLoggedIn = false;
+          state.username = "";
+          state.token = { refresh: "", access: "" };
+          localStorage.clear();
         });
     }
 });

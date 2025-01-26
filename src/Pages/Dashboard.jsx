@@ -2,6 +2,7 @@
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
+import Search from 'antd/es/input/Search';
 import BookCard from "Components/BookCard/BookCard";
 import Layout from "Layouts/Layout";
 import { useEffect } from "react";
@@ -14,15 +15,18 @@ import { sliderSettings } from './sliderSettings';
 export default function Dashboard() {
 
     const bookState = useSelector((state) => state.book);
+    const loading=useSelector(state=>{
+        return state.book.loading ;});
     const dispatch = useDispatch();
-    console.log('bookState ',bookState);
     async function loadBooks() {
         
         if(bookState.bookList.length == 0) {
             await dispatch(getAllBooks());
         }
     }
-
+function handleBookSearch(e){
+    dispatch(getAllBooks(e));
+}
     useEffect(() => {
         loadBooks();
     }, []);
@@ -31,6 +35,8 @@ export default function Dashboard() {
     return (
         <Layout>
              <div className="px-12 pt-28 pb-12">
+                <div className='pb-5 flex justify-end pr-14'>
+             <Search allowClear className='max-w-xs book-name-search' placeholder="Search By Book Name" loading={loading}  enterButton onSearch={handleBookSearch} /></div>
            {  bookState.bookList.length > 0 &&  <Slider {...settings} className="">
             { bookState.bookList.map(book => 
                 

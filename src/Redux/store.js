@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import authSliceReducer from 'Redux/Slices/AuthSlice';
 import bookSliceReducer from 'Redux/Slices/BookSlice';
 import shelfSliceReducer from 'Redux/Slices/ShelfSlice';

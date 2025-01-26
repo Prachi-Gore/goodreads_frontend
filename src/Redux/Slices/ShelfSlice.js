@@ -5,7 +5,8 @@ import { toast } from "react-hot-toast";
 const initialState = {
    shelfList: []
 };
-const accessToken=JSON.parse(localStorage.getItem("token"))?.access;    
+const accessToken=JSON.parse(localStorage.getItem("token"))?.access; 
+console.log('accessToken shelf ',accessToken)   
 
 export const getAllBookShelves = createAsyncThunk("course/getAllBookShelves", async () => {
     try {

@@ -5,11 +5,12 @@ import { toast } from "react-hot-toast";
 const initialState = {
    bookList: [],
    bookDetails: {},  // For individual book details
+   loading: false
 };
 
-export const getAllBooks = createAsyncThunk("course/getAllBooks", async () => {
+export const getAllBooks = createAsyncThunk("course/getAllBooks", async (searchTitle) => {
     try {
-        const response = axiosInstance.get("books/");
+        const response = axiosInstance.get(`books/?search=${searchTitle || ''}`);
         toast.promise(response, {
             loading: 'loading books data',
             success: 'Successfully loaded all the books',
@@ -50,7 +51,14 @@ const bookSlice = createSlice({
         builder.addCase(getAllBooks.fulfilled, (state, action) => {
             if(action?.payload?.data) {
                 state.bookList = action?.payload?.data;
+                state.loading = false;
             }
+        });
+        builder.addCase(getAllBooks.pending, (state) => {
+                state.loading = true;
+        });
+        builder.addCase(getAllBooks.rejected, (state) => {
+                state.loading = false;
         });
 
         // individual book details

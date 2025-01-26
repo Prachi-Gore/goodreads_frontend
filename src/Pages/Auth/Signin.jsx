@@ -90,8 +90,13 @@ export default function Signin() {
                                 Submit
                             </button>
                         </div>
-                        
+                        <div className="flex text-black justify-evenly underline w-1/3">
+
+                        <Link to='/reset-password'>Reset Password</Link>
+                        <Link to='/forgot-password'>Forgot Password</Link>
+                        </div>
                     </form>
+                    
                 </div>
             </div>
         </Layout>

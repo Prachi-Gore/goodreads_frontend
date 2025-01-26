@@ -1,3 +1,5 @@
+import ForgotPassword from "Pages/Auth/forgotPassword";
+import ResetPassword from "Pages/Auth/ResetPassword";
 import Signin from "Pages/Auth/Signin";
 import Signup from "Pages/Auth/Signup";
 import BookDescription from "Pages/BookDescription";
@@ -13,6 +15,8 @@ export default function MainRoutes() {
             <Route path="/" element={<Home />}></Route>
             <Route path="/signup" element={<Signup />}></Route>
             <Route path="/signin" element={<Signin />}></Route>
+            <Route path="/forgot-password" element={<ForgotPassword />}></Route>
+            <Route path="/reset-password" element={<ResetPassword />}></Route>
             <Route path="/dashboard" element={<Dashboard />}></Route>
             <Route path="/shelf" element={<Shelf />}></Route>
             <Route path="/book/:id" element={<BookDescription />}></Route>
