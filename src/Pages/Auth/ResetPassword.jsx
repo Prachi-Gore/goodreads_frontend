@@ -15,7 +15,7 @@ export default function ResetPassword() {
   return (
      <Layout>
       <div className="h-[100vh] flex flex-col items-center justify-center bg-yellow-200">
-      <div className="w-1/3">
+      <div className="w-1/4 min-w-[300px]">
         <div className="text-white" >
           <Title level={3}  >Change Password</Title>
           {/* <Text className="bg-white -mt-12">
