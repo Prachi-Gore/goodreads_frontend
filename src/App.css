@@ -39,3 +39,7 @@
   background-color: #3498db;  /* Custom color */
   color: white;               /* Text color */
 }
+.verification-code .ant-form-item-control-input-content .ant-otp {
+  @apply w-full;
+ 
+}

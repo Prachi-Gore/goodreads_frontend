@@ -1,6 +1,7 @@
 import { LockOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Typography } from "antd";
 import Layout from "Layouts/Layout";
+import toast from "react-hot-toast";
 
 const { Text, Title } = Typography;
 
@@ -8,13 +9,16 @@ export default function ResetPassword() {
  
 
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+    if(values.oldPassword===values.newPassword){
+      console.log("Received values of form: ", values);
+    toast.error("New password should not match with Old password");
+    }
   };
 
 
   return (
      <Layout>
-      <div className="h-[100vh] flex flex-col items-center justify-center bg-yellow-200">
+      <div className="h-[100vh] flex flex-col items-center justify-center bg-blue-50">
       <div className="w-1/4 min-w-[300px]">
         <div className="text-white" >
           <Title level={3}  >Change Password</Title>
@@ -24,18 +28,14 @@ export default function ResetPassword() {
         </div>
         <Form
           name="normal_login"
-          initialValues={{
-            remember: true,
-          }}
           onFinish={onFinish}
           layout="vertical"
-          requiredMark="optional"
+          autoComplete="off"
         >
           <Form.Item
             name="oldPassword"
             rules={[
               {
-                type: "password",
                 required: true,
                 message: "Please enter your Old Password!",
               },
@@ -53,6 +53,14 @@ export default function ResetPassword() {
               {
                 required: true,
                 message: "Please enter your New Password!",
+              },
+              {
+                min:6,
+                message: "Password should contain atleast 6 characters!",
+              },
+              {
+                max:10,
+                message: "Password should not contain more than 10 characters!",
               },
             ]}
           >
