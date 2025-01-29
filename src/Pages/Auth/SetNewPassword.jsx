@@ -11,7 +11,6 @@ navigate('/signin');
     }
 
     return (
-        <div >
              <Form
           form={form}
           name="set_new_password"
@@ -71,6 +70,6 @@ navigate('/signin');
             </Button>
           </Form.Item>
         </Form>
-        </div>
+
     );
 }
