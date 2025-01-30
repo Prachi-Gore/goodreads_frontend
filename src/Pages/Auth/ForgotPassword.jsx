@@ -9,7 +9,7 @@ import Verifiction from "./Verification";
 
 const ForgotPassword = () => {
   const [current,setCurrent ] = useState(0);
- function setCurrentPage(){
+ function getCurrentPage(){
   if(current<2)
   setCurrent(current+1);
  }
@@ -18,12 +18,12 @@ const ForgotPassword = () => {
     {
       key:0,
       title: 'Credential',
-      content: <Credential setCurrentPage={setCurrentPage} />
+      content: <Credential getCurrentPage={getCurrentPage} />
     },
     {
       key:1,
       title: 'Verification',
-      content: <Verifiction setCurrentPage={setCurrentPage} />,
+      content: <Verifiction getCurrentPage={getCurrentPage} />,
     },
     {
       key:2,

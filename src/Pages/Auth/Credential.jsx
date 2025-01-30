@@ -1,13 +1,13 @@
 import { MailOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Typography } from "antd";
 
-export default function Credential({setCurrentPage}){
+export default function Credential({getCurrentPage}){
     const { Text, Title } = Typography;
     const [form] = Form.useForm();
 
     const onFinish = (values) => {
       console.log("Success:", values);
-      setCurrentPage();
+      getCurrentPage();
     };
      
     return (

@@ -1,6 +1,6 @@
 /* eslint-disable simple-import-sort/imports */
 import { MailOutlined,LockOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Typography } from "antd";
+import { Button, Flex, Form, Input, Typography } from "antd";
 import Layout from "Layouts/Layout";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -61,10 +61,10 @@ async function onFinish(values){
                 <div className="sm:min-w-[400px]">
 
               
-            <Title level={5} className="text-center">Login to your account</Title>
+            <Title level={3} className="text-center">Login to your account</Title>
                <Text className="mb-4 justify-center flex">
                         Do not have an account ?  
-                        <Link to="/signup">
+                        <Link to="/signup" className="hover:!text-blue-500">
                             {/* <button className="btn btn-success rounded-md px-2 mx-5 hover:bg-green-400"> */}
                                {' Sign Up'}
                             {/* </button> */}
@@ -156,13 +156,17 @@ async function onFinish(values){
               placeholder="Password"
             />
           </Form.Item>
+          <Flex dir="horizontal" className="mb-4 -mt-4 px-1" gap={8} justify="end">
+          <Link to='/forgot-password' className="text-blue-600 hover:text-blue-500">Forgot Password ?</Link>
+          <Link to='/forgot-password' className="text-blue-600 hover:text-blue-500">Reset Password</Link>
+          </Flex>
           <Form.Item style={{ marginBottom: "0px" }}>
             <Button block="true" type="primary" htmlType="submit">
              Submit
             </Button>
           </Form.Item>
                 </Form>
-                <Button type="primary" className="w-full mt-4 btn-success hover:!bg-green-800" >
+                <Button type="primary" className="bg-green-800 w-full mt-4 hover:!btn-success" >
              Login as Guest
             </Button>
                 </div>
