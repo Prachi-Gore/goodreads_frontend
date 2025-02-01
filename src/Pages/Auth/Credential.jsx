@@ -44,18 +44,8 @@ export default function Credential({getCurrentPage}){
               placeholder="Email"
             />
           </Form.Item>
-          {/* <Button type="primary"className="bg-[#1677ff]"  onClick={() =>
-            form
-              .validateFields()
-              .then(onFinish)
-              .catch((err) => {
-                console.log(err);
-              })
-          }>
-            Next
-          </Button> */}
            <Form.Item style={{ marginBottom: "0px" }}>
-            <Button block="true" type="primary" htmlType="submit">
+            <Button block="true" type="primary" htmlType="submit" className="bg-blue-600">
              Next
             </Button>
           </Form.Item>

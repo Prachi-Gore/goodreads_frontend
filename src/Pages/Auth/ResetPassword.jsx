@@ -3,7 +3,7 @@ import { Button, Form, Input, Typography } from "antd";
 import Layout from "Layouts/Layout";
 import toast from "react-hot-toast";
 
-const { Text, Title } = Typography;
+const { Title } = Typography;
 
 export default function ResetPassword() {
  
@@ -18,13 +18,10 @@ export default function ResetPassword() {
 
   return (
      <Layout>
-      <div className="h-[100vh] flex flex-col items-center justify-center bg-blue-50">
+      <div className="h-full flex flex-col items-center justify-center bg-blue-50">
       <div className="w-1/4 min-w-[300px]">
         <div className="text-white" >
           <Title level={3}  >Change Password</Title>
-          {/* <Text className="bg-white -mt-12">
-           New password should not match with old password.
-          </Text> */}
         </div>
         <Form
           name="normal_login"
@@ -71,7 +68,7 @@ export default function ResetPassword() {
             />
           </Form.Item>
           <Form.Item style={{ marginBottom: "0px" }}>
-            <Button block="true" type="primary" htmlType="submit" className="bg-[#1677ff]">
+            <Button block="true" type="primary" htmlType="submit" className="bg-blue-600">
              Reset password
             </Button>
           </Form.Item>

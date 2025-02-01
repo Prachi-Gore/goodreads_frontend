@@ -20,44 +20,10 @@ async function onFinish(values){
         }
         form.resetFields();
 }
-    // const [signinDetails, setSignInDetails] = useState({
-    //     email: '',
-    //     password: '',
-    // });
-
-    // function handleFormChange(e) {
-    //     const {name, value} = e.target;
-    //     setSignInDetails({
-    //         ...signinDetails,
-    //         [name]: value
-    //     });
-    // }
-
-    // function resetForm() {
-    //     setSignInDetails({
-    //         email: '',
-    //         password: '',
-    //     });
-    // }
-    
-    // async function onFormSubmit(e) {
-    //     e.preventDefault();
-    //     const response = await dispatch(signin(signinDetails));
-    //     if(response?.payload?.data) {
-    //         navigate("/dashboard");
-    //     }
-    //     resetForm();
-    // }
-
-    // useEffect(() => {
-    //     if(state.isLoggedIn) {
-    //         navigate("/dashboard");
-    //     }
-    // }, []);
-
+  
     return (
         <Layout>
-            <div className="h-[calc(100vh-100px)] flex flex-col items-center justify-center bg-blue-50 text-black">
+            <div className="h-full flex flex-col items-center justify-center bg-blue-50 text-black">
                 <div className="sm:min-w-[400px]">
 
               
@@ -65,49 +31,9 @@ async function onFinish(values){
                <Text className="mb-4 justify-center flex">
                         Do not have an account ?  
                         <Link to="/signup" className="hover:!text-blue-500">
-                            {/* <button className="btn btn-success rounded-md px-2 mx-5 hover:bg-green-400"> */}
-                               {' Sign Up'}
-                            {/* </button> */}
+                               {'  Sign Up'}
                         </Link>
                 </Text>
-                {/* <div className="w-full">
-                    <form onSubmit={onFormSubmit} className="flex flex-col justify-center items-center w-3/4 mx-auto" autoComplete="off">
-                        <div className="my-5 w-1/3 text-black">
-                            <input
-                                autoComplete="off"
-                                type="email"
-                                placeholder="email..."
-                                className="px-8 py-3 bg-white w-full"
-                                name="email"
-                                onChange={handleFormChange}
-                                value={signinDetails.email}
-                            />
-                        </div>
-                        <div className="my-5 w-1/3 text-black">
-                            <input
-                                autoComplete="off"
-                                type="password"
-                                placeholder="password..."
-                                className="px-8 py-3 bg-white w-full"
-                                name="password"
-                                onChange={handleFormChange}
-                                value={signinDetails.password}
-                            />
-                        </div>
-                        <Link to='/forgot-password' className="text-black flex justify-end w-1/3">Forgot Password ?</Link>
-                        <div className="my-5 w-1/3">
-                            <button className="btn btn-success rounded-md px-2 py-1 w-full hover:bg-green-400" type="submit">
-                                Submit
-                            </button>
-                        </div>
-                        <div className="flex text-black justify-end underline w-1/3">
-
-                        <Link to='/reset-password'>Reset Password</Link>
-                        
-                        </div>
-                    </form>
-                    
-                </div> */}
                 <Form
                  name="signin"
                  form={form}
@@ -158,15 +84,15 @@ async function onFinish(values){
           </Form.Item>
           <Flex dir="horizontal" className="mb-4 -mt-4 px-1" gap={8} justify="end">
           <Link to='/forgot-password' className="text-blue-600 hover:text-blue-500">Forgot Password ?</Link>
-          <Link to='/forgot-password' className="text-blue-600 hover:text-blue-500">Reset Password</Link>
+          <Link to='/reset-password' className="text-blue-600 hover:text-blue-500">Reset Password</Link>
           </Flex>
           <Form.Item style={{ marginBottom: "0px" }}>
-            <Button block="true" type="primary" htmlType="submit">
+            <Button block="true" type="primary" htmlType="submit" className="bg-blue-600">
              Submit
             </Button>
           </Form.Item>
                 </Form>
-                <Button type="primary" className="bg-green-800 w-full mt-4 hover:!btn-success" >
+                <Button  className="bg-green-600 w-full mt-4 hover:!btn-success" >
              Login as Guest
             </Button>
                 </div>

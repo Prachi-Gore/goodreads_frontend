@@ -5,8 +5,8 @@ export default function Layout({children}) {
     return (
         <>
             <Navbar />
-            <div className="min-h-[90vh] flex items-start justify-center">
-                <div className="w-full">
+            <div className="h-[calc(100vh-65px)] flex items-start justify-center">
+                <div className="w-full h-full">
                     {children}
                 </div>
             </div>

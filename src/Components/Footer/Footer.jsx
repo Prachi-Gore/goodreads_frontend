@@ -2,7 +2,7 @@ import {  BsCode, BsGithub, BsLinkedin, BsTwitter } from "react-icons/bs";
 import { Link } from "react-router-dom";
 export default function Footer() {
     return (
-        <footer className="relative left-0 bottom-0 h-[10vh] py-5 flex flex-col sm:flex-row items-center justify-between text-white bg-gray-800 sm:px-20">
+        <footer className="h-16 relative left-0 bottom-0 py-5 flex flex-col sm:flex-row items-center justify-between text-white sm:px-20 bg-red-950">
             <section>
             Copyright © 2023 | All rights reserved
             </section>

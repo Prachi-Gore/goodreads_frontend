@@ -18,115 +18,18 @@ export default function Signup() {
     };
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const state = useSelector((state) => state.auth);
-
-    // const [signupDetails, setSignupDetails] = useState({
-    //     email: '',
-    //     password: '',
-    //     confirm_password:'',
-    //     username: ''
-    // });
-
-    // function handleFormChange(e) {
-    //     const {name, value} = e.target;
-    //     setSignupDetails({
-    //         ...signupDetails,
-    //         [name]: value
-    //     });
-    // }
-
-    // function resetForm() {
-    //     setSignupDetails({
-    //         email: '',
-    //         password: '',
-    //         confirm_password:'',
-    //         username: ''
-    //     });
-    // }
-    
-    // async function onFormSubmit(e) {
-    //     e.preventDefault();
-    //     const response = await dispatch(signup(signupDetails));
-    //     if(response?.data) {
-    //         navigate("/signin");
-    //     } 
-    //     resetForm();
-    // }
-
-    // useEffect(() => {
-    //     if(state.isLoggedIn) {
-    //         navigate("/dashboard");
-    //     }
-    // }, []);
-
+  
     return (
         <Layout>
-        <div className="h-[calc(100vh-100px)] flex flex-col items-center justify-center bg-blue-50 text-black">
+        <div className="h-full flex flex-col items-center justify-center bg-blue-50 text-black">
             <div className="sm:min-w-[400px]">
                 <Title className="mb-4 justify-center flex" level={3}>Create a new account</Title>
                 <Text className="mb-4 justify-center flex">
-                    Already have an account ? 
-                    <Link to="/signin" className="hover:!text-blue-500">
-                        {/* <button className="btn btn-success rounded-md px-2 mx-5 hover:bg-green-400"> */}
-                            Sign In
-                        {/* </button> */}
+                    Already have an account ?  
+                     <Link to="/signin" className="hover:!text-blue-500">
+                          {` Sign In`}
                     </Link>
                 </Text>
-           
-            {/* <div className="w-full">
-                <form onSubmit={onFormSubmit} className="flex flex-col justify-center items-center w-3/4 mx-auto" autoComplete="off">
-                    <div className="my-5 w-1/3 text-black">
-                        <input
-                            autoComplete="off"
-                            type="text"
-                            placeholder="username..."
-                            className="px-8 py-3 bg-white w-full"
-                            name="username"
-                            value={signupDetails.username}
-                            onChange={handleFormChange}
-                        />
-                    </div>
-                    <div className="my-5 w-1/3 text-black">
-                        <input
-                            autoComplete="off"
-                            type="email"
-                            placeholder="email..."
-                            className="px-8 py-3 bg-white w-full"
-                            name="email"
-                            value={signupDetails.email}
-                            onChange={handleFormChange}
-                        />
-                    </div>
-                    <div className="my-5 w-1/3 text-black">
-                        <input
-                            autoComplete="off"
-                            type="password"
-                            placeholder="password..."
-                            className="px-8 py-3 bg-white w-full"
-                            name="password"
-                            value={signupDetails.password}
-                            onChange={handleFormChange}
-                        />
-                    </div>
-                    <div className="my-5 w-1/3 text-black">
-                        <input
-                            autoComplete="off"
-                            type="password"
-                            placeholder="confirm password..."
-                            className="px-8 py-3 bg-white w-full"
-                            name="confirm_password"
-                            value={signupDetails.confirm_password}
-                            onChange={handleFormChange}
-                        />
-                    </div>
-                    <div className="my-5 w-1/3">
-                        <button className="btn btn-success rounded-md px-2 py-1 w-full hover:bg-green-400" type="submit">
-                            Submit
-                        </button>
-                    </div>
-                    
-                </form>
-            </div> */}
               <Form
                  name="signin"
                  form={form}
@@ -218,7 +121,7 @@ export default function Signup() {
             />
           </Form.Item>
           <Form.Item style={{ marginBottom: "0px" }}>
-            <Button block="true" type="primary" htmlType="submit">
+            <Button block="true" type="primary" htmlType="submit"className="bg-blue-600">
              Submit
             </Button>
           </Form.Item>

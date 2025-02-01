@@ -23,7 +23,7 @@ function onShelfClick() {
 navigate("/shelf");
 }
     return (
-        <div className="navbar bg-gray-800 px-20 fixed top-0 z-20">
+        <div className="navbar bg-red-900 px-20 fixed top-0 z-20 h-[76px]">
             <div className="flex-1">
                 <Link to="/dashboard" className="btn btn-success-content normal-case text-xl">BookShelf</Link>
             </div>

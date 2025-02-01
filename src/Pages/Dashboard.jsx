@@ -34,7 +34,7 @@ function handleBookSearch(e){
   const settings = sliderSettings(bookState.bookList);
     return (
         <Layout>
-             <div className="px-12 pt-28 pb-12">
+             <div className="h-full px-12 pt-28 pb-12">
                 <div className='pb-5 flex justify-end pr-14'>
              <Search allowClear className='max-w-xs book-name-search' placeholder="Search By Book Name" loading={loading}  enterButton onSearch={handleBookSearch} /></div>
            {  bookState.bookList.length > 0 &&  <Slider {...settings} className="">

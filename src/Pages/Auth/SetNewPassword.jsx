@@ -65,7 +65,7 @@ navigate('/signin');
             />
           </Form.Item>
           <Form.Item style={{ marginBottom: "0px" }}>
-            <Button block="true" type="primary" htmlType="submit">
+            <Button block="true" type="primary" htmlType="submit"className="bg-blue-600">
              Set New password
             </Button>
           </Form.Item>

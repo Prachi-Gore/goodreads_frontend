@@ -33,11 +33,8 @@ const ForgotPassword = () => {
   ];
  
   return (
-//     <div>
-// Enter verification code
-// For your security, we have sent the code to your email p******@gmail.com.    </div>
 <Layout>
-<div className="h-[calc(100vh-100px)] flex flex-col items-center pt-40 bg-blue-50 mx-auto px-10">
+<div className="h-full flex flex-col items-center pt-40 bg-blue-50 mx-auto px-10">
 <Steps current={current} items={steps} />
 <div className="my-10">{steps[current].content}</div>
 {/* {current < steps.length - 1 && (

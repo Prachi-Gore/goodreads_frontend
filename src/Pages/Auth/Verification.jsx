@@ -55,7 +55,7 @@ export default function Verifiction({ setCurrentPage }) {
                     {timer > 0 && <Text>Please wait {timer} seconds before requesting another code.</Text>}
                 </Flex>
                 <Form.Item style={{ marginBottom: "0px" }}>
-                    <Button block="true" type="primary" htmlType="submit" >
+                    <Button block="true" type="primary" htmlType="submit" className="bg-blue-600" >
                         Verify
                     </Button>
                 </Form.Item>
