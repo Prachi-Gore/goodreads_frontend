@@ -46,3 +46,12 @@ body{
   @apply w-full;
  
 }
+.book-description .ant-typography-expand, .book-description .ant-typography-expand:hover,.book-description .ant-typography-expand:active,.book-description .ant-typography-expand:visited{
+@apply !text-red-950 font-semibold;
+}
+.book-description .ant-typography-collapse, .book-description .ant-typography-collapse:hover,.book-description .ant-typography-collapse:active,.book-description .ant-typography-collapse:visited{
+  @apply !text-red-950 font-semibold;
+  }
+  .ant-btn-color-primary {
+    @apply !bg-[#1677ff];
+  }

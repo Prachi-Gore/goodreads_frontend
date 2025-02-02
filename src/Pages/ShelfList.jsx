@@ -1,6 +1,6 @@
 import {EditOutlined,EyeOutlined }  from '@ant-design/icons';
 import { Space, Table, Tag } from "antd";
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 
 const ShelfList = ({shelfListData}) => {
@@ -15,23 +15,23 @@ const ShelfList = ({shelfListData}) => {
           },
           {
             title: 'Genre',
-            dataIndex: 'genre',
-            key: 'genre',
-            render: (genreList) =><Space wrap={true}>{ genreList?.map((genreItem,genreId)=><Tag key={genreId} color='geekblue'>{genreItem}</Tag>)}</Space>,
+            dataIndex: 'genres',
+            key: 'genres',
+            render: (genreList) =><Space wrap={true}>{ genreList?.map((genreItem)=><Tag key={genreItem?.id} color='geekblue'>{genreItem?.genre_name}</Tag>)}</Space>,
           },
-          {
-            title: 'Added At',
-            dataIndex: 'added_at',
-            key: 'addedat',
-            render: (date) => {dayjs(date).format('D MMM YYYY h:mm a')}
-          },
+          // {
+          //   title: 'Added At',
+          //   dataIndex: 'createdAt',
+          //   key: 'createdAt',
+          //   render: (date) => {dayjs(date).format('D MMM YYYY h:mm a')}
+          // },
           {
             title: 'Action',
             key: 'action',
             dataIndex: '',
-            render:()=>{ return(<Space size='large'>
-                <EditOutlined className='bg-yellow-100 p-2 rounded-lg text-base' onClick={(id)=>navigate(`/book/edit/${id}`)} />
-                <EyeOutlined className='bg-green-100 p-2 rounded-lg text-base' onClick={(id)=>navigate(`/book/show/${id}`)} />
+            render:(book)=>{ return(<Space size='large'>
+                <EditOutlined className='bg-yellow-100 p-2 rounded-lg text-base' onClick={()=>navigate(`/book/edit/${book?.id}`)} />
+                <EyeOutlined className='bg-green-100 p-2 rounded-lg text-base' onClick={()=>navigate(`/book/show/${book?.id}`)} />
             </Space>);}
           },
     ];
@@ -42,10 +42,11 @@ const ShelfList = ({shelfListData}) => {
    pagination={false}
    sticky={true}
      scroll={{x:800 ,y:500}} columns={columns} dataSource={
-        [
-            {title:'a',genre:["abcd","abcd","abccd","abcd edddddd"]},
-            {title:'ahghh',genre:["abcd","abcd","abccd","abcd edddddd"]}
-        ]
+        // [
+        //     {title:'a',genre:["abcd","abcd","abccd","abcd edddddd"]},
+        //     {title:'ahghh',genre:["abcd","abcd","abccd","abcd edddddd"]}
+        // ]
+        shelfListData
         } />
     </div>
   );

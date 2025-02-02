@@ -10,8 +10,10 @@ export default function Signup() {
 
     const onFinish =async (values) => {
       console.log("Signup:", values);
+      // delete values.confirmPassword	;
       const response = await dispatch(signup(values));
-          if(response?.data) {
+      console.log("response signup success ",response?.payload?.status)
+          if(response?.payload?.status===201) {
               navigate("/signin");
           } 
          form.resetFields();
@@ -98,7 +100,7 @@ export default function Signup() {
             />
           </Form.Item>
           <Form.Item
-            name="confirmPassword"
+            name="confirm_password" 
             dependencies={['password']}
             rules={[
                 {

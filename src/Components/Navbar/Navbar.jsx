@@ -25,16 +25,16 @@ navigate("/shelf");
     return (
         <div className="navbar bg-red-900 px-20 fixed top-0 z-20 h-[76px]">
             <div className="flex-1">
-                <Link to="/dashboard" className="btn btn-success-content normal-case text-xl">BookShelf</Link>
+                <Link to="/dashboard" className="btn btn-success-content normal-case text-xl btn-secondary">BookShelf</Link>
             </div>
             <div className="flex-none">
                 <ul className="menu menu-horizontal px-1 text-white text-xl">
-                    { authState.isLoggedIn && <li><p onClick={onShelfClick} className="link">Shelfs</p></li> }
-                    { authState.isLoggedIn && <li><p className="link" >{authState.username}</p></li> }
+                    { authState.isLoggedIn && <li><p onClick={onShelfClick} className="">Shelfs</p></li> }
+                    { authState.isLoggedIn && <li><p className="" >{authState.username}</p></li> }
                     <li>
                         <details>
-                            <summary className="link" >Options</summary>
-                            <ul className="p-2 bg-base-100 text-black text-base z-10">
+                            <summary className="" >Options</summary>
+                            <ul className="p-2 text-base z-10 bg-white text-black">
                                 {authState.isLoggedIn && <li><Link to="/signin" onClick={onLogout}>Logout</Link></li>}
                                 {!authState.isLoggedIn && <li><Link to="/signup" >Signup</Link></li>}
                                 {!authState.isLoggedIn && <li><Link to="/signin" >Signin</Link></li>}
