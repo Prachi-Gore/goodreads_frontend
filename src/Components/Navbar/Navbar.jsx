@@ -1,40 +1,21 @@
-import { Menu } from "antd";
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Menu } from "antd";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { logout } from "Redux/Slices/AuthSlice";
 
 export default function Navbar() {
 const navigate=useNavigate();
-const items = [
-    {
-      label: 'Books',
-      key: 'mail',
-    },
-    {
-      label: 'Bookshelf',
-      key: 'app',
-    },
-    {
-      label: 'Options',
-      key: 'SubMenu',
-    //   type: 'group',
-      children: [
-        {
-          
-          label: 'Signup',
-          key: 'setting:1',
-        },
-        {
-          label: 'Signin',
-          key: 'setting:2',
-        },
-        {
-            label: 'Logout',
-            key: 'setting:3',
-          },
-      ],
-    }
-];
+const [current, setCurrent] = useState('mail');
+function onShelfClick() {
+  navigate("/shelf");
+  }
+
+function onClick(e){
+  console.log("onclick e ",e)
+  setCurrent(e.key);
+}
     const authState = useSelector((state) => state.auth);
     console.log('authState?.token ',authState?.token);
     const parsToken=authState?.token;
@@ -47,12 +28,40 @@ const items = [
     
       const response= await dispatch(logout({data:{refresh:refreshToken},accessToken}));
       if(response?.payload?.status===200){
-        // navigate('/dashboard')
+        navigate('/dashboard');
       }
     }
-function onShelfClick() {
-navigate("/shelf");
-}
+    const items = [
+      {
+        label:<span onClick={()=>navigate('/dashboard')} >Books</span>,
+        key: 'mail',
+      },
+      {
+        label: <span onClick={onShelfClick} >Bookshelf</span>,
+        key: 'app',
+      },
+      {
+        label:<Avatar className='bg-white' icon={<UserOutlined className='!text-black' />} shape="square" />,
+        key: 'SubMenu',
+      //   type: 'group',
+        children: [
+          {
+            
+            label:<span onClick={()=>navigate('/signup')} >Signup</span> ,
+            key: 'setting:1',
+          },
+          {
+            label: <span onClick={()=>navigate('/signin')}>Signin</span>,
+            key: 'setting:2',
+          },
+          authState.isLoggedIn  && {
+              label: <span onClick={onLogout} >Logout</span>,
+              key: 'setting:3',
+            },
+        ],
+      }
+  ];
+
     return (
         // <div className="navbar bg-red-900 px-20 fixed top-0 z-20 h-[76px]">
         //     <div className="flex-1">
@@ -76,6 +85,6 @@ navigate("/shelf");
         //         </ul>
         //     </div>
         // </div>
-        <Menu  mode="horizontal" items={items} />
+        <Menu  mode="horizontal" theme='dark' className='!text-white flex justify-end' items={items} onClick={onClick} selectedKeys={[current]}/>
     );
 }
