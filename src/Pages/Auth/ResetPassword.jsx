@@ -2,17 +2,30 @@ import { LockOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Typography } from "antd";
 import Layout from "Layouts/Layout";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { resetPassword } from "Redux/Slices/AuthSlice";
 
 const { Title } = Typography;
 
 export default function ResetPassword() {
- 
-
-  const onFinish = (values) => {
-    if(values.oldPassword===values.newPassword){
-      console.log("Received values of form: ", values);
+  const dispatch = useDispatch();
+  const navigate =useNavigate();
+  const form=Form.useForm();
+const authState = useSelector((state) => state.auth);
+    const parsToken=authState?.token;
+    const accessToken=parsToken?.access;
+  const onFinish = async(values) => {
+    if(values.old_password===values.new_password){
     toast.error("New password should not match with Old password");
+    return;
     }
+  const response=await dispatch(resetPassword({data:values,accessToken}));
+  console.log("reset password response ",response);
+  if(response?.payload?.status===200) {
+    navigate("/signin");
+    form.resetFields();
+}
   };
 
 
@@ -30,7 +43,7 @@ export default function ResetPassword() {
           autoComplete="off"
         >
           <Form.Item
-            name="oldPassword"
+            name="old_password"
             rules={[
               {
                 required: true,
@@ -45,7 +58,7 @@ export default function ResetPassword() {
             />
           </Form.Item>
           <Form.Item
-            name="newPassword"
+            name="new_password"
             rules={[
               {
                 required: true,

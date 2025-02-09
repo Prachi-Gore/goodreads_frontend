@@ -6,6 +6,11 @@ const initialState = {
     isLoggedIn: localStorage.getItem('isLoggedIn') || false,
     username: localStorage.getItem('username') || '',
     token: JSON.parse(localStorage.getItem('token')) || {refresh:'',access:''},
+    // forgot password states
+    // otpSent:false,
+    // otpVerified:false,
+    // newPasswordSet:false
+    current:0
 };
 export const signup = createAsyncThunk("auth/signup", async (data) => {
     try {
@@ -72,6 +77,49 @@ export const refreshToken = createAsyncThunk("auth/refreshAccessToken", async (r
       return rejectWithValue(error.response?.data);
     }
   });
+
+// Reset Password(known old password)   
+export const resetPassword=createAsyncThunk("auth/resetPassword",async({data,accessToken})=>{
+    try{
+const response=axiosInstance.post("reset_password/",data,{
+    headers:{Authorization:`Bearer ${accessToken}`}});
+    toast.promise(response,{
+        loading: 'Password Reset is in progress',
+        success: 'Password Reset Successfully!',
+        error: "Something went wrong"
+    });
+    return await response;
+}catch(error){
+    console.log("password reset error",error);
+    const errorMsg=error?.response?.data?.err;
+    if(errorMsg) {
+        toast.error(errorMsg);
+    } else {
+        toast.error("Cannot Reset Password, something went wrong");
+    }
+    }
+});
+// Forgot Password using otp
+export const requestOtp=createAsyncThunk("auth/requestOtp",async(data)=>{
+try{
+const response=axiosInstance.post("request_otp/",data);
+toast.promise(response,{
+    loading: 'Generating OTP',
+    success: 'OTP Sent Successfully!',
+    error: "Something went wrong"
+});
+return await response;
+}catch(error){
+    const errorMsg=error?.response?.data?.err;
+    console.log("otp generate error ",error)
+    if(errorMsg) {
+        toast.error(errorMsg);
+    } else {
+        toast.error("Cannot Sent OTP, something went wrong");
+    }
+}
+});
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -111,6 +159,8 @@ const authSlice = createSlice({
           state.username = "";
           state.token = { refresh: "", access: "" };
           localStorage.clear();
+        }).addCase(requestOtp.fulfilled,(state)=>{
+            state.current=1;
         });
     }
 });

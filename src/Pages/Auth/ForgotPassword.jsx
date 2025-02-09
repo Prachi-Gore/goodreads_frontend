@@ -1,6 +1,7 @@
-import { Steps } from "antd";
+import { Button, Form, Steps } from "antd";
 import Layout from "Layouts/Layout";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { requestOtp } from "Redux/Slices/AuthSlice";
 
 import Credential from "./Credential";
 import SetNewPassword from "./SetNewPassword";
@@ -8,22 +9,35 @@ import Verifiction from "./Verification";
 
 
 const ForgotPassword = () => {
-  const [current,setCurrent ] = useState(0);
- function getCurrentPage(){
-  if(current<2)
-  setCurrent(current+1);
- }
- 
+  const dispatch=useDispatch();
+  const current=useSelector(state=>state.auth.current);
+
+//   const [current,setCurrent ] = useState(0);
+//  function getCurrentPage(){
+//   if(current<2)
+//   setCurrent(current+1);
+//  }
+  const [form] = Form.useForm();
+  const loginId=Form.useWatch((values) =>{console.log("values ",values);return values.email},form);
+
+    const onFinish = (values) => {
+      console.log("Success:", values);
+      // getCurrentPage();
+      if(current==0){
+   dispatch(requestOtp(values));
+      }
+      return;
+    };
   const steps = [
     {
       key:0,
       title: 'Credential',
-      content: <Credential getCurrentPage={getCurrentPage} />
+      content: <Credential />
     },
     {
       key:1,
       title: 'Verification',
-      content: <Verifiction getCurrentPage={getCurrentPage} />,
+      content: <Verifiction loginId={loginId} />,
     },
     {
       key:2,
@@ -36,12 +50,23 @@ const ForgotPassword = () => {
 <Layout>
 <div className="h-full flex flex-col items-center pt-40 bg-blue-50 mx-auto px-10">
 <Steps current={current} items={steps} />
+<Form
+          name="forgot-password"
+          form={form}
+          onFinish={onFinish}
+          layout="vertical"
+          className="sm:min-w-[400px]"
+           autoComplete="off"
+>
 <div className="my-10">{steps[current].content}</div>
-{/* {current < steps.length - 1 && (
-  <div className="w-full flex justify-end">
-        
-          </div>
-        )} */}
+
+
+<Form.Item style={{ marginBottom: "0px" }}>
+            <Button block="true" type="primary" htmlType="submit" className="bg-blue-600">
+             Next
+            </Button>
+          </Form.Item>
+</Form>
 </div>
 </Layout>
   );

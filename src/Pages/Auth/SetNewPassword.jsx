@@ -4,21 +4,22 @@ import { useNavigate } from "react-router-dom";
 
 export default function SetNewPassword(){
     const navigate=useNavigate()
-    const [form] = Form.useForm();
-    const onFinish=(values)=>{
-console.log('values ',values);
-navigate('/signin');
-    }
+    // const [form] = Form.useForm();
+//     const onFinish=(values)=>{
+// console.log('values ',values);
+// navigate('/signin');
+//     }
 
     return (
-             <Form
-          form={form}
-          name="set_new_password"
-          onFinish={onFinish}
-          layout="vertical"
-          className="sm:min-w-[400px]"
-          autoComplete="off"
-        >
+        //      <Form
+        //   form={form}
+        //   name="set_new_password"
+        //   onFinish={onFinish}
+        //   layout="vertical"
+        //   className="sm:min-w-[400px]"
+        //   autoComplete="off"
+        // >
+        <>
           <Form.Item
             name="password"
             rules={[
@@ -64,12 +65,13 @@ navigate('/signin');
               placeholder="Confirm Password"
             />
           </Form.Item>
-          <Form.Item style={{ marginBottom: "0px" }}>
-            <Button block="true" type="primary" htmlType="submit"className="bg-blue-600">
-             Set New password
-            </Button>
-          </Form.Item>
-        </Form>
+          </>
+          // <Form.Item style={{ marginBottom: "0px" }}>
+          //   <Button block="true" type="primary" htmlType="submit"className="bg-blue-600">
+          //    Set New password
+          //   </Button>
+          // </Form.Item>
+        // </Form>
 
     );
 }

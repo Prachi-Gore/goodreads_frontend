@@ -41,22 +41,22 @@ function onClick(e){
         key: 'app',
       },
       {
-        label:<Avatar className='bg-white' icon={<UserOutlined className='!text-black' />} shape="square" />,
+        label:<><Avatar className='bg-white' icon={<UserOutlined className='!text-black' />} shape="square" /> {authState?.username}</>,
         key: 'SubMenu',
       //   type: 'group',
         children: [
           {
             
-            label:<span onClick={()=>navigate('/signup')} >Signup</span> ,
-            key: 'setting:1',
+            label:<span className='' onClick={()=>navigate('/signup')} >Signup</span> ,
+            key: 'signup',
           },
           {
             label: <span onClick={()=>navigate('/signin')}>Signin</span>,
-            key: 'setting:2',
+            key: 'signin',
           },
           authState.isLoggedIn  && {
               label: <span onClick={onLogout} >Logout</span>,
-              key: 'setting:3',
+              key: 'logout',
             },
         ],
       }

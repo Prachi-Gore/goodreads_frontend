@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { signin } from "Redux/Slices/AuthSlice";
 
 export default function Signin() {
+  const isLoggedIn=localStorage.getItem('isLoggedIn')||false;
     const { Title, Text } = Typography;
     const [form]=Form.useForm()
     const dispatch = useDispatch();
@@ -83,9 +84,9 @@ async function onFinish(values){
             />
           </Form.Item>
           <Flex dir="horizontal" className="mb-4 -mt-4 px-1" gap={8} justify="end">
-          <Link to='/forgot-password' className="text-blue-600 hover:text-blue-500">Forgot Password ?</Link>
-          <Link to='/reset-password' className="text-blue-600 hover:text-blue-500">Reset Password</Link>
-          </Flex>
+{  !isLoggedIn &&  <Link to='/forgot-password' className="text-blue-600 hover:text-blue-500">Forgot Password ?</Link>
+}{          isLoggedIn && <Link to='/reset-password' className="text-blue-600 hover:text-blue-500">Reset Password</Link>
+}          </Flex>
           <Form.Item style={{ marginBottom: "0px" }}>
             <Button block="true" type="primary" htmlType="submit" className="bg-blue-600">
              Submit
