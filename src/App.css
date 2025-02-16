@@ -53,5 +53,5 @@ body{
   @apply !text-red-950 font-semibold;
   }
   .ant-btn-color-primary {
-    @apply !bg-[#1677ff];
+    @apply bg-[#1677ff];
   }

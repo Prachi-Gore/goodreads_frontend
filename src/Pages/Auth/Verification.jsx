@@ -1,17 +1,10 @@
 import { Button, Flex, Form, Input, Typography } from "antd";
-// import { useWatch } from "antd/es/form/Form";
 import { useEffect, useState } from "react";
 
-export default function Verifiction({loginId}) {
-    // const [form] = Form.useForm();
+export default function Verifiction() {
     const [timer, setTimer] = useState(30);
     const { Title, Text } = Typography;
-    // const loginId = form.getFieldValue('email');
-    console.log("loginId ",loginId);
-    // function onFinish(values) {
-    //     console.log("values verification", values);
-    //     setCurrentPage();
-    // }
+    
     useEffect(() => {
         const interval = timer > 0 && setInterval(() => {
             setTimer(timer - 1);
@@ -22,16 +15,8 @@ export default function Verifiction({loginId}) {
     return (
         <div>
             <Title level={5}>
-                We have sent code to your email {loginId}
+                We have sent code to your email {localStorage.getItem('email')}
             </Title >
-            {/* <Form
-                name="verification"
-                form={form}
-                onFinish={onFinish}
-                layout="vertical"
-                 className="sm:min-w-[400px]"
-                 autoComplete="off"
-            > */}
                 <Form.Item
                     name="otp"
                     className="verification-code mt-4"
@@ -53,15 +38,9 @@ export default function Verifiction({loginId}) {
                     <Input.OTP variant="filled" />
                 </Form.Item>
                 <Flex vertical className="mb-4">
-                    <Button type="link" className={`!text-blue-500 flex justify-start px-0 w-fit ${timer === 0 ? 'hover:underline hover:!text-blue-500' : ''}`} disabled={timer > 0} onClick={() => setTimer(30)}>Resend code</Button>
+                    <Button type="link" className={`!bg-blue-50 underline flex justify-start px-0 w-fit ${timer === 0 ? 'hover:underline hover:!text-blue-500' : ''}`} disabled={timer > 0} onClick={() => setTimer(30)}>Resend code</Button>
                     {timer > 0 && <Text>Please wait {timer} seconds before requesting another code.</Text>}
                 </Flex>
-                {/* <Form.Item style={{ marginBottom: "0px" }}>
-                    <Button block="true" type="primary" htmlType="submit" className="bg-blue-600" >
-                        Verify
-                    </Button>
-                </Form.Item> */}
-            {/* </Form> */}
         </div>
     );
 }

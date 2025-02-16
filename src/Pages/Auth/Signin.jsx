@@ -12,6 +12,12 @@ export default function Signin() {
     const [form]=Form.useForm()
     const dispatch = useDispatch();
     const navigate = useNavigate();
+  async function loginAsGuest(){
+      const response = await dispatch(signin({email:'guest@gmail.com',password:123456})); // first this user should be register
+        if(response?.payload?.data) {
+            navigate("/dashboard");
+        }
+    }
     // const state = useSelector((state) => state.auth);
 async function onFinish(values){
     console.log("values ",values);
@@ -93,7 +99,7 @@ async function onFinish(values){
             </Button>
           </Form.Item>
                 </Form>
-                <Button  className="bg-green-600 w-full mt-4 hover:!btn-success" >
+                <Button  className="bg-green-600 w-full mt-4 hover:!btn-success" onClick={loginAsGuest} >
              Login as Guest
             </Button>
                 </div>

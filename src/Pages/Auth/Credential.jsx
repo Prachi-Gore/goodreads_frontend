@@ -3,12 +3,7 @@ import {  Form, Input, Typography } from "antd";
 
 export default function Credential(){
     const { Text, Title } = Typography;
-    // const [form] = Form.useForm();
-
-    // const onFinish = (values) => {
-    //   console.log("Success:", values);
-    //   getCurrentPage();
-    // };
+    
      
     return (
         <div >
@@ -18,14 +13,6 @@ export default function Credential(){
           You wiil receive verification code on below id
           </Text>
         </div>
-        {/* <Form
-          name="credential"
-          form={form}
-          onFinish={onFinish}
-          layout="vertical"
-          className="sm:min-w-[400px]"
-           autoComplete="off"
-        > */}
           <Form.Item
             name="email"
             rules={[
@@ -44,8 +31,6 @@ export default function Credential(){
               placeholder="Email"
             />
           </Form.Item>
-          
-        {/* </Form> */}
       </div>
     );
 }

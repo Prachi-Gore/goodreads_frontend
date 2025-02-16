@@ -10,7 +10,7 @@ const initialState = {
     // otpSent:false,
     // otpVerified:false,
     // newPasswordSet:false
-    current:0
+    current: localStorage.getItem('current') || 0
 };
 export const signup = createAsyncThunk("auth/signup", async (data) => {
     try {
@@ -100,7 +100,8 @@ const response=axiosInstance.post("reset_password/",data,{
     }
 });
 // Forgot Password using otp
-export const requestOtp=createAsyncThunk("auth/requestOtp",async(data)=>{
+
+export const requestOtp=createAsyncThunk("auth/requestOtp",async(data,{rejectWithValue})=>{
 try{
 const response=axiosInstance.post("request_otp/",data);
 toast.promise(response,{
@@ -117,9 +118,51 @@ return await response;
     } else {
         toast.error("Cannot Sent OTP, something went wrong");
     }
+    return rejectWithValue(error.response?.data);
 }
 });
 
+export const verifyOtp=createAsyncThunk("auth/verifyOtp",async(data,{rejectWithValue})=>{
+    try{
+    const response=axiosInstance.post("verify_otp/",data);
+    toast.promise(response,{
+        loading: 'OTP Verification In Progress',
+        success: 'OTP Verification Done!',
+        error: "Something went wrong"
+    });
+    return await response;
+    }catch(error){
+        const errorMsg=error?.response?.data?.err;
+        console.log("otp verification error ",error)
+        if(errorMsg) {
+            toast.error(errorMsg);
+        } else {
+            toast.error("Cannot Verify OTP, something went wrong");
+        }
+        return rejectWithValue(error.response?.data);
+    }
+    });
+
+    export const setForgotPassword=createAsyncThunk("auth/setForgotPassword",async(data,{rejectWithValue})=>{
+        try{
+        const response=axiosInstance.post("forgot_password/",data);
+        toast.promise(response,{
+            loading: 'Setting Password',
+            success: 'Password set Successfully!',
+            error: "Something went wrong"
+        });
+        return await response;
+        }catch(error){
+            const errorMsg=error?.response?.data?.err;
+            console.log("Password set error ",error)
+            if(errorMsg) {
+                toast.error(errorMsg);
+            } else {
+                toast.error("Cannot set Password, something went wrong");
+            }
+            return rejectWithValue(error.response?.data);
+        }
+        });    
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -160,7 +203,16 @@ const authSlice = createSlice({
           state.token = { refresh: "", access: "" };
           localStorage.clear();
         }).addCase(requestOtp.fulfilled,(state)=>{
+            localStorage.setItem('current',1);
             state.current=1;
+        }).addCase(verifyOtp.fulfilled,(state)=>{
+            localStorage.setItem('current',2);
+            state.current=2;
+        }).addCase(setForgotPassword.fulfilled,(state)=>{
+            localStorage.removeItem('current');
+            localStorage.removeItem('email');
+            localStorage.removeItem('otp');
+            state.current=0;
         });
     }
 });

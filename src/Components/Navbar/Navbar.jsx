@@ -14,7 +14,11 @@ function onShelfClick() {
 
 function onClick(e){
   console.log("onclick e ",e)
-  setCurrent(e.key);
+  if(e.keyPath?.length==1){
+    setCurrent(e.key);
+  }else{
+    setCurrent('SubMenu')
+  }
 }
     const authState = useSelector((state) => state.auth);
     console.log('authState?.token ',authState?.token);
