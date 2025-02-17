@@ -24,22 +24,22 @@ export const getAllBookShelves = createAsyncThunk("course/getAllBookShelves", as
     }
 });
 
-export const addBookToShelf = createAsyncThunk("course/addBookToShelf", async (data) => {
-    try {
-        const response = axiosInstance.patch(`/bookshelf/${data.shelfName}/add/${data.bookId}/`, {}, {headers: {
-            Authorization: `Bearer ${accessToken}`
-        }});
-        toast.promise(response, {
-            loading: 'adding book to shelf data',
-            success: 'Successfully added book to shelf',
-            error: "Something went wrong"
-        });
+// export const addBookToShelf = createAsyncThunk("course/addBookToShelf", async (data) => {
+//     try {
+//         const response = axiosInstance.patch(`/bookshelf/${data.shelfName}/add/${data.bookId}/`, {}, {headers: {
+//             Authorization: `Bearer ${accessToken}`
+//         }});
+//         toast.promise(response, {
+//             loading: 'adding book to shelf data',
+//             success: 'Successfully added book to shelf',
+//             error: "Something went wrong"
+//         });
         
-        return await response;
-    } catch(error) {
-        toast.error("Something went wrong, cannot download bookshelves");
-    }
-});
+//         return await response;
+//     } catch(error) {
+//         toast.error("Something went wrong, cannot download bookshelves");
+//     }
+// });
 
 export const createShelf = createAsyncThunk("course/createShelf", async (data) => {
     try {

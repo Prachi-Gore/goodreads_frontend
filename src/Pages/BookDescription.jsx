@@ -8,10 +8,11 @@ import { useEffect, useState } from 'react';
 import ReactStars from "react-rating-stars-component";
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
-import { getBookDetails } from 'Redux/Slices/BookSlice';
-import { addBookToShelf, getAllBookShelves } from 'Redux/Slices/ShelfSlice';
+import { createReview, getAllReviews, getBookDetails, updateBookDetails, updateReview } from 'Redux/Slices/BookSlice';
+import {  getAllBookShelves } from 'Redux/Slices/ShelfSlice';
 
 export default function BookDescription() {
+    const { Title, Text } = Typography;
     const [editId,setEditId]=useState();
     const [reviewForm]=Form.useForm();
     const [open, setOpen] = useState(false);
@@ -20,37 +21,10 @@ export default function BookDescription() {
       };
       const handleCancel = () => {
         console.log('Clicked cancel button');
-        setEditId(null)
+        setEditId(null);
         setOpen(false);
       };
-      function handleOk(values){
-// make add / update api call then close modal on success
-// if edit id then make update call and on success setEditId(null)
-// else call add call
-console.log("handle ok values ",values)
-      }
-    const reviews=[{
-        username:'prachi',
-        created_at:'12 june 2023',
-        updated_at:'15 june 2023',
-        description:'njffffffffffffffffff hfffffffffff jfffffffffffff ffffffffffffff jffffffffffff f fffff ff',
-        id:1
-    },
-    {
-        username:'prachi',
-        created_at:'12 june 2023',
-        updated_at:'',
-        description:'njffffffffffffffffff hfffffffffff jfffffffffffff ffffffffffffff jffffffffffff f fffff ff',
-        id:2
-    },
-    {
-        username:'prachi',
-        created_at:'12 june 2023',
-        updated_at:'15 june 2023',
-        description:'njffffffffffffffffff hfffffffffff jfffffffffffff ffffffffffffff jffffffffffff f fffff ff',
-        id:3
-    }
-];
+ 
     const [rows, ] = useState(2);
   const [expanded, setExpanded] = useState(false);
     let disabled=false;
@@ -60,17 +34,46 @@ console.log("handle ok values ",values)
     const dispatch = useDispatch();
     const shelfState = useSelector((state) => state.shelf);
     const bookDetails=useSelector(state=>state.book.bookDetails);
-    console.log('shelfState ',shelfState);
-    console.log('bookDetails ',bookDetails);
-
-    const { Title, Text } = Typography;
+    const authState = useSelector((state) => state.auth);
+    const reviews=useSelector((state) => state.book.review);
+    const parsToken=authState?.token;
+    const accessToken=parsToken?.access;
+  
+    async   function handleOk(values){
+      // make add / update api call then close modal on success
+      // if edit id then make update call and on success setEditId(null)
+      // else call add call
+      console.log("handle ok values ",values);
+      if(editId){
+        const response=await dispatch(updateReview({data:{...values},id:editId,accessToken}));
+        if(response?.payload?.status===200){
+          reviewForm.resetFields();
+          setOpen(false);
+        }
+      }else{
+      const response=await dispatch(createReview({data:{...values,book:Number(id)},accessToken}));
+      console.log("response api success",response)
+      if(response?.payload?.status===200){
+        reviewForm.resetFields();
+        setOpen(false);
+      }
+      }
+      return;
+      
+            }
+    function onRatingChange(e){
+      console.log("onRatingChange ",e);
+      dispatch(updateBookDetails({data:{rating:e},id:id,accessToken}));
+    }
    function onChangeShelf(e){
-    console.log("onChangeShelf ",e)
-    dispatch(addBookToShelf({shelfName: e, bookId: bookDetails?.id}));
+    console.log("onChangeShelf ",e);
+    dispatch(updateBookDetails({data:{bookshelf:e},id:id,accessToken}));
    }
     useEffect( () => {
         if(id) dispatch(getBookDetails(id));
         dispatch(getAllBookShelves());
+        console.log("get all reviews ")
+        dispatch(getAllReviews());
     }, [id,dispatch]);
     if(pathname?.includes('/show/')){
        disabled=true;
@@ -86,17 +89,17 @@ console.log("handle ok values ",values)
 <Image
     src={`http://127.0.0.1:8000/${bookDetails?.book_cover}`}
     preview={false}
-    className='max-w-[300px] '
+    className='max-w-[300px]'
   />
 <Title level={4} className='flex-wrap mt-2'>
 {bookDetails?.title}
 </Title>
-<Title level={5} className='!mt-0'>
+<Title level={5} className='!my-0'>
     {bookDetails?.author?.author_name}
 </Title>
-<Text className='text-base text-black'>
+{/* <Text className='text-base text-black '>
 Avg Rating: {4.5}
-</Text>
+</Text> */}
   <ReactStars
     count={5}
     size={24}
@@ -106,21 +109,21 @@ Avg Rating: {4.5}
     halfIcon={<i className="fa fa-star-half-alt"></i>}
     fullIcon={<i className="fa fa-star"></i>}
     activeColor="#ffd700"
-    edit={disabled}
+    edit={!disabled}
+    onChange={onRatingChange}
   />
 
                                <Select
-          // mode="multiple"
           size='large'
           disabled={disabled}
           placeholder="Where to keep book "
-          defaultValue={[]} // user should now currently book is in which shelf
           onChange={onChangeShelf}
           options={shelfState?.shelfList?.map((shelfItem)=>({
             label:shelfItem.name,
             value:shelfItem.id
           }))||[]}
-          className='w-60 max-w-[100%]'
+          value={bookDetails?.bookshelf}
+          className='w-60 max-w-[100%] mt-1'
         />
         </div>
         <div className='flex-1 h-full'>
@@ -138,9 +141,9 @@ About Book
     {bookDetails?.pages} pages
 </Text>
 </Space>
-<Space wrap={true}>
+<Space wrap>
 {
-  bookDetails?.genres?.map((genreItem)=><Tag key={genreItem?.id} color="green">{genreItem?.genre_name}</Tag>)
+  bookDetails?.genres?.map((genreItem)=><Tag key={genreItem?.id} color="green" className='text-lg'>{genreItem?.genre_name}</Tag>)
 }
 </Space>
 </Flex>
@@ -154,7 +157,7 @@ About Book
         }}
         className='text-base'
       >
-       Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet commodi ex assumenda? Blanditiis aut architecto iure qui voluptas, expedita enim inventore quam sint quod sed dignissimos voluptate cumque praesentium labore quae ea saepe aperiam fugit excepturi et magnam! Corporis ipsa voluptate dolore sequi quis porro accusantium doloremque nobis voluptates minus placeat officia earum similique quasi repudiandae assumenda eaque facere asperiores modi, exercitationem veniam recusandae minima architecto. Blanditiis, ex maxime. Perspiciatis totam quasi quas modi veritatis minus qui, optio voluptates autem dolorem quia culpa assumenda asperiores illo exercitationem ea magnam corporis iste dolores voluptatem facilis molestiae ab, nulla dicta! Veniam voluptates neque dolor facere amet repellendus dolorem sunt mollitia, dignissimos eligendi hic suscipit est reiciendis ratione, excepturi reprehenderit molestias laudantium cum a. Repellat fugiat amet voluptatem consequuntur dolore itaque. Officiis deserunt debitis dolorum odio similique voluptas. Ullam iure impedit quam facilis unde laborum mollitia quasi esse. Minima possimus fugit non consequatur magnam vero tenetur nulla, aperiam nobis accusantium id aliquid aspernatur, optio architecto numquam aut in repudiandae perspiciatis iste veritatis labore. Autem dolorem veniam eligendi incidunt mollitia facere porro voluptate tenetur repudiandae et officia itaque iusto quis corporis illum magnam nesciunt tempora odit amet illo, modi a? Tempore culpa sit nisi corrupti sint dicta voluptatibus quaerat accusantium accusamus ea molestias, totam, animi atque! Totam labore magnam praesentium numquam cum iure corrupti sequi consequuntur earum in expedita harum possimus commodi cupiditate reprehenderit culpa, nobis impedit veritatis, perferendis odio asperiores! Laborum commodi voluptatibus dolor excepturi corporis repudiandae eligendi impedit, facere at sunt corrupti aliquid, nobis quasi nesciunt! Voluptatem doloribus sit deserunt cumque tempore. Ex labore vero ratione! Nostrum dicta ullam quas perspiciatis accusantium quam quis quaerat aspernatur minima omnis. Consectetur repellat nostrum voluptates harum praesentium exercitationem culpa, omnis a iste ratione? Animi repellendus corrupti voluptatibus quaerat autem in eum velit alias sunt vero quo suscipit ad sapiente, reiciendis ipsum voluptas mollitia quae hic laboriosam dolores cum temporibus reprehenderit eveniet non? Voluptatibus consequatur vero totam ipsam cum et est quidem, tempore ab magnam aperiam nostrum nihil voluptatem laboriosam aut sapiente reprehenderit repellat illum at necessitatibus assumenda quos. Sint aliquam exercitationem et laudantium ea, non officia cum vero at excepturi alias? Fugiat, maiores placeat praesentium sed perferendis modi! Cum rerum unde labore voluptatibus provident reiciendis magni explicabo perferendis distinctio soluta neque architecto deserunt velit non eveniet voluptas aliquam qui sed, voluptate illum libero iste nihil. Officia nihil minus iste tempore quia aliquid consectetur assumenda voluptatibus commodi, et id. Culpa non aliquam dolor id rem recusandae corporis dolorum nesciunt veniam optio at saepe esse sapiente voluptatem labore, nulla eaque sequi molestias. Consectetur commodi, sunt aliquam placeat itaque id eius repellendus natus modi assumenda. Quia aperiam laudantium, beatae eum est odio cupiditate perspiciatis mollitia velit et iure pariatur amet, ad officiis. Architecto, sapiente. Sed, corrupti voluptates. Earum consequuntur dolor provident doloribus, est, delectus amet, autem sunt tempore soluta aliquam ut? Itaque consequatur inventore rerum tenetur natus vel laborum facilis debitis, a perspiciatis fugiat porro alias ex libero similique sequi quia animi, molestias, adipisci et harum omnis aspernatur.
+        {bookDetails?.description}
       </Typography.Paragraph>
       </div>
       <div className='h-1/2'>
@@ -162,7 +165,7 @@ About Book
         <Title level={4}>
         Reviews
         </Title>
-        <Button  type="primary"className="bg-blue-600"onClick={showModal}>
+        <Button  type="primary"className="bg-blue-600"onClick={showModal} disabled={disabled}>
              Add Review
             </Button>
             </Flex>
@@ -216,17 +219,17 @@ About Book
            
             <Flex vertical>
                 <Space className='' align='center' >
-                 <Title className=' !mb-0 text-red-950' level={5}>{review?.username}</Title>
-                 <Text className=''>{review?.updated_at?'updated':'added'} {`about `} 
-                 
-                    {review.updated_at} hrs ago</Text></Space>
-                 <Text>{review?.description}</Text>
+                 <Title className=' !mb-0 text-red-950' level={5}>{review?.user?.username}</Title>
+                 <Text className=''>{review?.updated_at?'updated':'created'} {`at `} 
+                 {review?.updated_at||review?.created_at}
+            </Text></Space>
+                 <Text>{review?.review}</Text>
             </Flex>
             <Space size='large' >
                 <Button icon={<EditOutlined className='text-blue-500 !border-none'/>} disabled={disabled} onClick={()=>{setEditId(review?.id);
-                    setOpen(true)
+                    setOpen(true);
                 }}/>
-                <Button icon={<DeleteOutlined className='text-red-600' />} disabled={disabled} onClick={()=>console.log("called review del api")}/>
+                {/* <Button icon={<DeleteOutlined className='text-red-600' />} disabled={disabled} onClick={()=>console.log("called review del api")}/> */}
 
             </Space>
         </Flex>

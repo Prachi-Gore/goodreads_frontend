@@ -5,7 +5,8 @@ import { toast } from "react-hot-toast";
 const initialState = {
    bookList: [],
    bookDetails: {},  // For individual book details
-   loading: false
+   loading: false,
+   reviews:[]
 };
 
 export const getAllBooks = createAsyncThunk("course/getAllBooks", async (searchTitle) => {
@@ -39,7 +40,78 @@ export const getBookDetails = createAsyncThunk("course/getBookDetails", async (i
     }
 });
 
+// update book details like rating and shelf corresponding to book
 
+export const updateBookDetails=createAsyncThunk("course/updateBookDetails",async({data,id,accessToken},{rejectWithValue})=>{
+try{
+const response=axiosInstance.patch(`book/${id}`,data,{
+    headers:{Authorization:`Bearer ${accessToken}`}
+});
+toast.promise(response,{
+    loading: 'Book Details Update is in progress',
+    success: 'Book Details Updated Successfully!',
+    error: "Something went wrong"
+});
+return await response;
+}catch(error){
+    const errorMsg=error?.response?.data?.err;
+    if(errorMsg) {
+        toast.error(errorMsg);
+    } else {
+        toast.error("Cannot Reset Password, something went wrong");
+    }
+    return rejectWithValue(error.response?.data);
+}
+});
+
+export const getAllReviews = createAsyncThunk("reviews/getAll", async ({rejectWithValue}) => {
+    try {
+        const response = axiosInstance.get('reviews/');
+        console.log('getAllReviews ',response)
+        toast.promise(response, {
+            loading: 'loading reviews',
+            success: 'Successfully loaded all reviews',
+            error: "Something went wrong"
+        });
+        return await response;
+    } catch(error) {
+        toast.error("Something went wrong, cannot download reviews");
+        return rejectWithValue(error.response?.data);
+
+    }
+});
+
+export const createReview = createAsyncThunk("reviews/create", async ({data,accessToken},{rejectWithValue}) => {
+    try {
+        const response = axiosInstance.post('reviews/',data,{headers: { Authorization: `Bearer ${accessToken}` }});
+        toast.promise(response, {
+            loading: 'Creating Review',
+            success: 'Review created Successfully',
+            error: "Something went wrong"
+        });
+        return await response;
+    } catch(error) {
+        toast.error("Something went wrong, cannot create review");
+        return rejectWithValue(error.response?.data);
+
+    }
+});
+
+export const updateReview = createAsyncThunk("reviews/update", async ({data,id,accessToken},{rejectWithValue}) => {
+    try {
+        const response = axiosInstance.patch(`reviews/${id}`,data,{headers: { Authorization: `Bearer ${accessToken}` }});
+        toast.promise(response, {
+            loading: 'Updating Review',
+            success: 'Review updated Successfully',
+            error: "Something went wrong"
+        });
+        return await response.data;
+    } catch(error) {
+        toast.error("Something went wrong, cannot update review");
+        return rejectWithValue(error.response?.data);
+
+    }
+});
 
 const bookSlice = createSlice({
     name: 'book',
@@ -66,6 +138,20 @@ const bookSlice = createSlice({
             console.log('state bookDetails',state,action);
             if(action?.payload?.data) {
                 state.bookDetails = action?.payload?.data;
+            }
+        });
+
+        builder.addCase(updateBookDetails.fulfilled, (state, action) => {
+            console.log('updated bookDetails',state,action);
+            if(action?.payload?.data) {
+                state.bookDetails = action?.payload?.data;
+            }
+        });
+
+        // reviews
+        builder.addCase(getAllReviews.fulfilled,(state,action)=>{
+            if(action?.payload?.data){
+                state.reviews=action?.payload?.data;
             }
         });
     }

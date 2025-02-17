@@ -15,7 +15,7 @@ export default function BookCard({ data }) {
                 {/* <div className="flex justify-center mt-4"> */}
                         <button 
                         onClick={() => {
-                            navigate(`/book/show/${data?.id}`);
+                            navigate(`/book/edit/${data?.id}`);
                         }}
                         disabled={!authState?.isLoggedIn}
                         className={`px-2 py-1 rounded-lg ml-2  ${!authState?.isLoggedIn ? 'cursor-not-allowed bg-gray-300':'bg-red-900'}`}>

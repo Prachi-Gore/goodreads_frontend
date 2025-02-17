@@ -47,7 +47,7 @@ export const signin = createAsyncThunk("auth/signin", async (data) => {
     }
 });
 
-export const logout=createAsyncThunk("auth/logout",async({data,accessToken})=>{
+export const logout=createAsyncThunk("auth/logout",async({data,accessToken},{rejectWithValue})=>{
     console.log("logout payload data ",accessToken);
 try{
     const response = axiosInstance.post("logout/", data,{headers: { Authorization: `Bearer ${accessToken}` }});
@@ -65,6 +65,7 @@ try{
     } else {
         toast.error("Cannot logout, something went wrong");
     }
+    return rejectWithValue(error.response?.data);
 }
 });
 // Refresh Token
