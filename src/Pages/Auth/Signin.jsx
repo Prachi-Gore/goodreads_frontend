@@ -15,7 +15,7 @@ export default function Signin() {
   async function loginAsGuest(){
       const response = await dispatch(signin({email:'guest@gmail.com',password:123456})); // first this user should be register
         if(response?.payload?.data) {
-            navigate("/dashboard");
+            navigate("/book-list");
         }
     }
     // const state = useSelector((state) => state.auth);
@@ -23,7 +23,7 @@ async function onFinish(values){
     console.log("values ",values);
         const response = await dispatch(signin(values));
         if(response?.payload?.data) {
-            navigate("/dashboard");
+            navigate("/book-list");
         }
         form.resetFields();
 }

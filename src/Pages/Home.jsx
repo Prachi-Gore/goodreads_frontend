@@ -9,7 +9,7 @@ export default function Home() {
     const isLoggedIn=useSelector((state)=>state.auth.isLoggedIn);
     useEffect(()=>{
         if(isLoggedIn){
-            navigate('dashboard');
+            navigate('book-list');
         }
     });
     return (

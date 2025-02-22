@@ -1,5 +1,6 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Menu } from "antd";
+import { Header } from 'antd/es/layout/layout';
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -32,12 +33,12 @@ function onClick(e){
     
       const response= await dispatch(logout({data:{refresh:refreshToken},accessToken}));
       if(response?.payload?.status===200){
-        navigate('/dashboard');
+        navigate('/book-list');
       }
     }
     const items = [
       {
-        label:<span onClick={()=>navigate('/dashboard')} >Books</span>,
+        label:<span onClick={()=>navigate('/book-list')} >Books</span>,
         key: 'mail',
       },
       {
@@ -69,7 +70,7 @@ function onClick(e){
     return (
         // <div className="navbar bg-red-900 px-20 fixed top-0 z-20 h-[76px]">
         //     <div className="flex-1">
-        //         <Link to="/dashboard" className="btn btn-success-content normal-case text-xl btn-secondary">BookShelf</Link>
+        //         <Link to="/book-list" className="btn btn-success-content normal-case text-xl btn-secondary">BookShelf</Link>
         //     </div>
         //     <div className="flex-none">
         //         <ul className="menu menu-horizontal px-1 text-white text-xl">
@@ -89,6 +90,8 @@ function onClick(e){
         //         </ul>
         //     </div>
         // </div>
-        <Menu  mode="horizontal" theme='dark' className='!text-white flex justify-end' items={items} onClick={onClick} selectedKeys={[current]}/>
+        <Header className='!bg-red-900 !text-white !z-10 !sticky !top-0 !w-full !items-center'>
+        <Menu  mode="horizontal" theme='dark' className='' items={items} onClick={onClick} selectedKeys={[current]}/>
+        </Header>
     );
 }

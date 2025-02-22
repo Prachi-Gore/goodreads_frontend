@@ -35,6 +35,7 @@ export default function BookDescription() {
     const shelfState = useSelector((state) => state.shelf);
     const bookDetails=useSelector(state=>state.book.bookDetails);
     const authState = useSelector((state) => state.auth);
+    const userId=authState?.userId;
     const reviews=useSelector((state) => state.book.review);
     const parsToken=authState?.token;
     const accessToken=parsToken?.access;
@@ -72,7 +73,7 @@ export default function BookDescription() {
     useEffect( () => {
         if(id) dispatch(getBookDetails(id));
         dispatch(getAllBookShelves());
-        console.log("get all reviews ")
+        console.log("get all reviews ");
         dispatch(getAllReviews());
     }, [id,dispatch]);
     if(pathname?.includes('/show/')){
@@ -225,13 +226,13 @@ About Book
             </Text></Space>
                  <Text>{review?.review}</Text>
             </Flex>
-            <Space size='large' >
+          {userId===review?.user?.id && <Space size='large' >
                 <Button icon={<EditOutlined className='text-blue-500 !border-none'/>} disabled={disabled} onClick={()=>{setEditId(review?.id);
                     setOpen(true);
                 }}/>
-                {/* <Button icon={<DeleteOutlined className='text-red-600' />} disabled={disabled} onClick={()=>console.log("called review del api")}/> */}
+                <Button icon={<DeleteOutlined className='text-red-600' />} disabled={disabled} onClick={()=>console.log("called review del api")}/>
 
-            </Space>
+            </Space>}
         </Flex>
         </>
     ))

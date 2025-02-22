@@ -2,15 +2,15 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "Configs/axiosInstance";
 import { toast } from "react-hot-toast";
 
+import AUTH_ACCESS from "../../Constants/constant";
+
 const initialState = {
     isLoggedIn: localStorage.getItem('isLoggedIn') || false,
     username: localStorage.getItem('username') || '',
     token: JSON.parse(localStorage.getItem('token')) || {refresh:'',access:''},
-    // forgot password states
-    // otpSent:false,
-    // otpVerified:false,
-    // newPasswordSet:false
-    current: localStorage.getItem('current') || 0
+    current: localStorage.getItem('current') || 0,
+    accessList:[],
+    userId:localStorage.getItem('userId') || null
 };
 export const signup = createAsyncThunk("auth/signup", async (data) => {
     try {
@@ -181,15 +181,20 @@ const authSlice = createSlice({
                 state.isLoggedIn = (action?.payload?.data != undefined);
                 state.username = action?.payload?.data?.username;
                 state.token = action?.payload?.data?.token;
+                state.userId=action?.payload?.data?.id;
+                state.accessList=AUTH_ACCESS;
                 localStorage.setItem("isLoggedIn", (action?.payload?.data != undefined));
                 localStorage.setItem("username", action?.payload?.data?.username);
+                localStorage.setItem("userId", action?.payload?.data?.id);
                 localStorage.setItem("token", JSON.stringify(action?.payload?.data?.token));
             }
         }).addCase(logout.fulfilled, (state, action) => {
             if(action?.payload?.status===200) {
                 state.isLoggedIn = false;
                 state.username = '';
+                state.userId = null;
                 state.token = {refresh:'',access:''};
+                state.accessList=[];
                 localStorage.clear();
             }
         })
@@ -201,6 +206,7 @@ const authSlice = createSlice({
         .addCase(refreshToken.rejected, (state) => {
           state.isLoggedIn = false;
           state.username = "";
+          state.userId = null;
           state.token = { refresh: "", access: "" };
           localStorage.clear();
         }).addCase(requestOtp.fulfilled,(state)=>{
