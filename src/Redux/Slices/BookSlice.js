@@ -6,7 +6,7 @@ const initialState = {
    bookList: [],
    bookDetails: {},  // For individual book details
    loading: false,
-   reviews:[]
+//    reviews:[]
 };
 
 export const getAllBooks = createAsyncThunk("course/getAllBooks", async (searchTitle) => {
@@ -64,22 +64,22 @@ return await response;
 }
 });
 
-export const getAllReviews = createAsyncThunk("reviews/getAll", async ({rejectWithValue}) => {
-    try {
-        const response = axiosInstance.get('reviews/');
-        console.log('getAllReviews ',response)
-        toast.promise(response, {
-            loading: 'loading reviews',
-            success: 'Successfully loaded all reviews',
-            error: "Something went wrong"
-        });
-        return await response;
-    } catch(error) {
-        toast.error("Something went wrong, cannot download reviews");
-        return rejectWithValue(error.response?.data);
+// export const getAllReviews = createAsyncThunk("reviews/getAll", async ({rejectWithValue}) => {
+//     try {
+//         const response = axiosInstance.get('reviews/');
+//         console.log('getAllReviews ',response)
+//         toast.promise(response, {
+//             loading: 'loading reviews',
+//             success: 'Successfully loaded all reviews',
+//             error: "Something went wrong"
+//         });
+//         return await response;
+//     } catch(error) {
+//         toast.error("Something went wrong, cannot download reviews");
+//         return rejectWithValue(error.response?.data);
 
-    }
-});
+//     }
+// });
 
 export const createReview = createAsyncThunk("reviews/create", async ({data,accessToken},{rejectWithValue}) => {
     try {
@@ -99,7 +99,7 @@ export const createReview = createAsyncThunk("reviews/create", async ({data,acce
 
 export const updateReview = createAsyncThunk("reviews/update", async ({data,id,accessToken},{rejectWithValue}) => {
     try {
-        const response = axiosInstance.patch(`reviews/${id}`,data,{headers: { Authorization: `Bearer ${accessToken}` }});
+        const response = axiosInstance.patch(`review/${id}`,data,{headers: { Authorization: `Bearer ${accessToken}` }});
         toast.promise(response, {
             loading: 'Updating Review',
             success: 'Review updated Successfully',
@@ -108,6 +108,22 @@ export const updateReview = createAsyncThunk("reviews/update", async ({data,id,a
         return await response.data;
     } catch(error) {
         toast.error("Something went wrong, cannot update review");
+        return rejectWithValue(error.response?.data);
+
+    }
+});
+
+export const deleteReview = createAsyncThunk("reviews/delete", async ({id,accessToken},{rejectWithValue}) => {
+    try {
+        const response = axiosInstance.patch(`review/${id}`,{headers: { Authorization: `Bearer ${accessToken}` }});
+        toast.promise(response, {
+            loading: 'Deleting Review',
+            success: 'Review deleted Successfully',
+            error: "Something went wrong"
+        });
+        return await response.data;
+    } catch(error) {
+        toast.error("Something went wrong, cannot delete review");
         return rejectWithValue(error.response?.data);
 
     }
@@ -149,11 +165,11 @@ const bookSlice = createSlice({
         });
 
         // reviews
-        builder.addCase(getAllReviews.fulfilled,(state,action)=>{
-            if(action?.payload?.data){
-                state.reviews=action?.payload?.data;
-            }
-        });
+        // builder.addCase(getAllReviews.fulfilled,(state,action)=>{
+        //     if(action?.payload?.data){
+        //         state.reviews=action?.payload?.data;
+        //     }
+        // });
     }
 });
 

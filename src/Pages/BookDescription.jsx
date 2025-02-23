@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import ReactStars from "react-rating-stars-component";
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
-import { createReview, getAllReviews, getBookDetails, updateBookDetails, updateReview } from 'Redux/Slices/BookSlice';
+import { createReview,deleteReview, getBookDetails, updateBookDetails,updateReview } from 'Redux/Slices/BookSlice';
 import {  getAllBookShelves } from 'Redux/Slices/ShelfSlice';
 
 export default function BookDescription() {
@@ -40,7 +40,13 @@ export default function BookDescription() {
     const parsToken=authState?.token;
     const accessToken=parsToken?.access;
   
-    async   function handleOk(values){
+    async function ondeleteReview(reviewId) {
+     const response= await dispatch(deleteReview({id:reviewId,accessToken}));
+     if(response?.payload?.status===200){
+     await getBookDetails(id);
+     }
+    }
+    async function handleOk(values){
       // make add / update api call then close modal on success
       // if edit id then make update call and on success setEditId(null)
       // else call add call
@@ -73,8 +79,6 @@ export default function BookDescription() {
     useEffect( () => {
         if(id) dispatch(getBookDetails(id));
         dispatch(getAllBookShelves());
-        console.log("get all reviews ");
-        dispatch(getAllReviews());
     }, [id,dispatch]);
     if(pathname?.includes('/show/')){
        disabled=true;
@@ -230,7 +234,7 @@ About Book
                 <Button icon={<EditOutlined className='text-blue-500 !border-none'/>} disabled={disabled} onClick={()=>{setEditId(review?.id);
                     setOpen(true);
                 }}/>
-                <Button icon={<DeleteOutlined className='text-red-600' />} disabled={disabled} onClick={()=>console.log("called review del api")}/>
+                <Button icon={<DeleteOutlined className='text-red-600' />} disabled={disabled} onClick={()=>ondeleteReview(review?.id)}/>
 
             </Space>}
         </Flex>
