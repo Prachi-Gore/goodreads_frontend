@@ -10,6 +10,7 @@
             "Routes/*": ["./src/Routes/*"],
             "Helpers/*": ["./src/Helpers/*"],
             "Assets/*": ["./src/Assets/*"],
+            "Constants/*": ["./src/Constants/*"],
         }
     }
 }

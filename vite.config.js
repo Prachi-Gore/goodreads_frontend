@@ -13,7 +13,8 @@ export default defineConfig({
       Redux: "/src/Redux",
       Configs: "/src/Configs",
       Helpers: "/src/Helpers",
-      Routes: "/src/Routes"
+      Routes: "/src/Routes",
+      Constants: "/src/Constants"
     }
   },
 });

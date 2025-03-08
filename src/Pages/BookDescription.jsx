@@ -11,6 +11,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { createReview,deleteReview, getBookDetails, updateBookDetails,updateReview } from 'Redux/Slices/BookSlice';
 import {  getAllBookShelves } from 'Redux/Slices/ShelfSlice';
 
+
 export default function BookDescription() {
     const { Title, Text } = Typography;
     const [editId,setEditId]=useState();
@@ -92,7 +93,7 @@ export default function BookDescription() {
             <div className=' bg-[#AEA371] h-[81%] mt-[70px] rounded-xl flex justify-between items-center p-10  w-[80%] max-w-[80%] gap-x-4 min-w-[300px]'>
                 <div className='flex w-[40%] flex-col items-center' >
 <Image
-    src={`http://127.0.0.1:8000/${bookDetails?.book_cover}`}
+    src={`${bookDetails?.book_cover}`}
     preview={false}
     className='max-w-[300px]'
   />

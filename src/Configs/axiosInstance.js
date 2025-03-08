@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { toast } from "react-hot-toast";
 import { logout,refreshToken } from "Redux/Slices/AuthSlice";
 import store from 'Redux/store';
+import { BASE_URL } from 'Constants/constant';
 
 const instance = axios.create();
-instance.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
+instance.defaults.baseURL = BASE_URL;
 
 // // Request Interceptor
 // instance.interceptors.request.use((config) => {
