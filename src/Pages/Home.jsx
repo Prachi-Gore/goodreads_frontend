@@ -11,7 +11,7 @@ export default function Home() {
         if(isLoggedIn){
             navigate('book-list');
         }
-    });
+    },[]);
     return (
             <div className="flex flex-col items-center justify-center gap-y-20 h-[100vh] bg-yellow-300">
 

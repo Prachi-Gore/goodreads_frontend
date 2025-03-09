@@ -37,15 +37,17 @@ export default function BookDescription() {
     const bookDetails=useSelector(state=>state.book.bookDetails);
     const authState = useSelector((state) => state.auth);
     const userId=authState?.userId;
-    const reviews=useSelector((state) => state.book.review);
+    const reviews=useSelector((state) => state.book.reviews);
+    console.log("reviews list ",reviews)
     const parsToken=authState?.token;
     const accessToken=parsToken?.access;
   
     async function ondeleteReview(reviewId) {
      const response= await dispatch(deleteReview({id:reviewId,accessToken}));
-     if(response?.payload?.status===200){
-     await getBookDetails(id);
-     }
+     console.log("response on delete ",response);
+    //  if(response?.payload?.status===200){
+    // //  await getBookDetails(id);
+    //  }
     }
     async function handleOk(values){
       // make add / update api call then close modal on success
@@ -53,17 +55,23 @@ export default function BookDescription() {
       // else call add call
       console.log("handle ok values ",values);
       if(editId){
-        const response=await dispatch(updateReview({data:{...values},id:editId,accessToken}));
+        const response=await dispatch(updateReview({data:{...values,book:id},id:editId,accessToken}));
+        console.log("response api success",response)
+
         if(response?.payload?.status===200){
           reviewForm.resetFields();
           setOpen(false);
+        // const a=  await getBookDetails(id);
+        // console.log("get book for review",a)
         }
       }else{
-      const response=await dispatch(createReview({data:{...values,book:Number(id)},accessToken}));
+        console.log("id ",id)
+      const response=await dispatch(createReview({data:{...values,book:id},accessToken}));
       console.log("response api success",response)
-      if(response?.payload?.status===200){
+      if(response?.payload?.status===201){
         reviewForm.resetFields();
         setOpen(false);
+        // await getBookDetails(id);
       }
       }
       return;
@@ -76,6 +84,9 @@ export default function BookDescription() {
    function onChangeShelf(e){
     console.log("onChangeShelf ",e);
     dispatch(updateBookDetails({data:{bookshelf:e},id:id,accessToken}));
+   }
+   function getFormattedDate(date){
+    return dayjs(date)?.format("DD MMM YYYY hh:mm A");
    }
     useEffect( () => {
         if(id) dispatch(getBookDetails(id));
@@ -227,7 +238,7 @@ About Book
                 <Space className='' align='center' >
                  <Title className=' !mb-0 text-red-950' level={5}>{review?.user?.username}</Title>
                  <Text className=''>{review?.updated_at?'updated':'created'} {`at `} 
-                 {review?.updated_at||review?.created_at}
+                 {getFormattedDate(review?.updated_at)||getFormattedDate(review?.created_at)}
             </Text></Space>
                  <Text>{review?.review}</Text>
             </Flex>

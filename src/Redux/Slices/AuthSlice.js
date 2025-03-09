@@ -178,6 +178,7 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(signin.fulfilled, (state, action) => {
             if(action?.payload?.data) {
+                console.log('action?.payload?.data ',action?.payload?.data)
                 state.isLoggedIn = (action?.payload?.data != undefined);
                 state.username = action?.payload?.data?.username;
                 state.token = action?.payload?.data?.token;

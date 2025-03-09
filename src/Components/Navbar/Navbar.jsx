@@ -1,4 +1,3 @@
-import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Menu } from "antd";
 import { Header } from 'antd/es/layout/layout';
 import { useState } from "react";
@@ -8,19 +7,19 @@ import { logout } from "Redux/Slices/AuthSlice";
 
 export default function Navbar() {
 const navigate=useNavigate();
-const [current, setCurrent] = useState('mail');
+// const [current, setCurrent] = useState();
 function onShelfClick() {
   navigate("/shelf");
   }
 
-function onClick(e){
-  console.log("onclick e ",e)
-  if(e.keyPath?.length==1){
-    setCurrent(e.key);
-  }else{
-    setCurrent('SubMenu')
-  }
-}
+// function onClick(e){
+//   console.log("onclick e ",e)
+//   // if(e.keyPath?.length==1){
+//     setCurrent(e.key);
+//   // }else{
+//   //   setCurrent('auth')
+//   // }
+// }
     const authState = useSelector((state) => state.auth);
     console.log('authState?.token ',authState?.token);
     const parsToken=authState?.token;
@@ -38,18 +37,30 @@ function onClick(e){
     }
     const items = [
       {
-        label:<span onClick={()=>navigate('/book-list')} >Books</span>,
-        key: 'mail',
-      },
-      {
-        label: <span onClick={onShelfClick} >Bookshelf</span>,
-        key: 'app',
-      },
-      {
-        label:<><Avatar className='bg-white' icon={<UserOutlined className='!text-black' />} shape="square" /> {authState?.username}</>,
-        key: 'SubMenu',
+        label:<Avatar className='bg-white' icon={<img width="32" height="32" src="https://img.icons8.com/external-smashingstocks-hand-drawn-black-smashing-stocks/32/external-bookshelf-education-smashingstocks-hand-drawn-black-smashing-stocks.png" alt="external-bookshelf-education-smashingstocks-hand-drawn-black-smashing-stocks"/>} shape="square" />,
+        key: 'bookfeature',
         // type: 'group',
         children: [
+          {
+            label:<span onClick={()=>navigate('/book-list')} >Books</span>,
+            key: 'booklist',
+          },
+          authState.isLoggedIn  && {
+            label: <span onClick={onShelfClick} >Bookshelf</span>,
+            key: 'bookshelf',
+          },
+        ],
+      },
+      {
+        label:<Avatar className='bg-white' icon={<img width="32" height="32" src="https://img.icons8.com/parakeet-line/32/name.png" alt="name"/>} shape="square" />,
+        key: 'auth',
+        // type: 'group',
+        children: [
+          authState.isLoggedIn  &&  {
+            
+            label:<span>{authState?.username}</span> ,
+            key: 'userDetails',
+          },
           {
             
             label:<span className='' onClick={()=>navigate('/signup')} >Signup</span> ,
@@ -68,30 +79,8 @@ function onClick(e){
   ];
 
     return (
-        // <div className="navbar bg-red-900 px-20 fixed top-0 z-20 h-[76px]">
-        //     <div className="flex-1">
-        //         <Link to="/book-list" className="btn btn-success-content normal-case text-xl btn-secondary">BookShelf</Link>
-        //     </div>
-        //     <div className="flex-none">
-        //         <ul className="menu menu-horizontal px-1 text-white text-xl">
-        //             { authState.isLoggedIn && <li><p onClick={onShelfClick} className="">Shelfs</p></li> }
-        //             { authState.isLoggedIn && <li><p className="" >{authState.username}</p></li> }
-        //             <li>
-        //                 <details>
-        //                     <summary className="" >Options</summary>
-        //                     <ul className="p-2 text-base z-10 bg-white text-black">
-        //                         {authState.isLoggedIn && <li><Link to="/signin" onClick={onLogout}>Logout</Link></li>}
-        //                         {!authState.isLoggedIn && <li><Link to="/signup" >Signup</Link></li>}
-        //                         {!authState.isLoggedIn && <li><Link to="/signin" >Signin</Link></li>}
-
-        //                     </ul>
-        //                 </details>
-        //             </li>
-        //         </ul>
-        //     </div>
-        // </div>
-        <Header className='!bg-red-900 !text-white !z-10 !sticky !top-0 !w-full !items-center'>
-        <Menu  mode="horizontal" theme='dark' className='' items={items} onClick={onClick} selectedKeys={[current]}/>
+        <Header className='bg-red-900 text-white z-10 sticky top-0 w-full items-center'>
+        <Menu  mode="horizontal" theme='dark' className='bg-inherit menu-text-color  justify-end' items={items} />
         </Header>
     );
 }

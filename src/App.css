@@ -16,7 +16,7 @@ body{
   }
   
   .book-card-container {
-    @apply bg-gray-800 p-6 pb-0 flex flex-col gap-y-4 items-center
+    @apply bg-[#AEA371] p-6 pb-0 flex flex-col gap-y-4 items-center
      rounded-lg sm:w-72 md:w-80 lg:w-80 xl:w-96;
 }
 
@@ -54,4 +54,13 @@ body{
   }
   .ant-btn-color-primary {
     @apply bg-[#1677ff];
+  }
+  .ant-menu-submenu-popup > .ant-menu .ant-menu-title-content span{
+    @apply text-black text-base;
+  }
+  .menu-text-color .ant-menu-submenu-selected {
+    @apply !bg-red-900;
+  }
+  .ant-menu-submenu-popup > .ant-menu{
+    @apply !bg-blue-100 ;
   }

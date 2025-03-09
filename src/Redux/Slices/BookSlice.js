@@ -6,7 +6,7 @@ const initialState = {
    bookList: [],
    bookDetails: {},  // For individual book details
    loading: false,
-//    reviews:[]
+   reviews:[]
 };
 
 export const getAllBooks = createAsyncThunk("course/getAllBooks", async (searchTitle) => {
@@ -105,7 +105,7 @@ export const updateReview = createAsyncThunk("reviews/update", async ({data,id,a
             success: 'Review updated Successfully',
             error: "Something went wrong"
         });
-        return await response.data;
+        return await response;
     } catch(error) {
         toast.error("Something went wrong, cannot update review");
         return rejectWithValue(error.response?.data);
@@ -115,13 +115,13 @@ export const updateReview = createAsyncThunk("reviews/update", async ({data,id,a
 
 export const deleteReview = createAsyncThunk("reviews/delete", async ({id,accessToken},{rejectWithValue}) => {
     try {
-        const response = axiosInstance.patch(`review/${id}`,{headers: { Authorization: `Bearer ${accessToken}` }});
+        const response = axiosInstance.delete(`review/${id}`,{headers: { Authorization: `Bearer ${accessToken}` }});
         toast.promise(response, {
             loading: 'Deleting Review',
             success: 'Review deleted Successfully',
             error: "Something went wrong"
         });
-        return await response.data;
+        return await {...response,id};  // as we are not getting deleted review id from backend so we are attaching it from our side and will use it in addCase
     } catch(error) {
         toast.error("Something went wrong, cannot delete review");
         return rejectWithValue(error.response?.data);
@@ -154,6 +154,7 @@ const bookSlice = createSlice({
             console.log('state bookDetails',state,action);
             if(action?.payload?.data) {
                 state.bookDetails = action?.payload?.data;
+                state.reviews=state.bookDetails.reviews;
             }
         });
 
@@ -165,11 +166,30 @@ const bookSlice = createSlice({
         });
 
         // reviews
-        // builder.addCase(getAllReviews.fulfilled,(state,action)=>{
-        //     if(action?.payload?.data){
-        //         state.reviews=action?.payload?.data;
-        //     }
-        // });
+        builder.addCase(createReview.fulfilled,(state,action)=>{
+            if(action?.payload?.data){
+                console.log("review add ",action?.payload?.data)
+                state.reviews=[... state.reviews,action?.payload?.data?.data];
+            }
+        });
+        builder.addCase(updateReview.fulfilled,(state,action)=>{
+            if(action?.payload?.data?.data?.id){
+                const review=action?.payload?.data?.data;
+                console.log("review update ",review);
+                state.reviews=state.reviews?.map(ritem=>{
+                   return ritem?.id===review?.id ? {...ritem,review:review.review,updated_at:review.updated_at}:ritem
+            });
+            }
+        });
+        builder.addCase(deleteReview.fulfilled,(state,action)=>{
+            console.log("review delete ",action);
+            const deletedReviewId=action?.payload?.id;
+            if(deletedReviewId){
+                state.reviews=state.reviews?.filter(ritem=>(
+                    ritem?.id!==deletedReviewId )
+                );
+            }
+        });
     }
 });
 
