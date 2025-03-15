@@ -63,7 +63,7 @@ const ForgotPassword = () => {
  
   return (
 <Layout>
-<div className="h-full flex flex-col items-center pt-40 bg-blue-50 mx-auto px-10">
+<div className="w-full flex flex-col items-center pt-40 bg-blue-50 mx-auto px-10">
 {/* <Steps current={current} items={steps} /> */}
 <Form
           name="forgot_password"

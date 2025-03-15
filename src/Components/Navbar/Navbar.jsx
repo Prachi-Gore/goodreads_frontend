@@ -61,12 +61,12 @@ function onShelfClick() {
             label:<span>{authState?.username}</span> ,
             key: 'userDetails',
           },
-          {
+        authState?.username!=='Guest'  &&{
             
             label:<span className='' onClick={()=>navigate('/signup')} >Signup</span> ,
             key: 'signup',
           },
-          {
+        authState?.username!=='Guest' && {
             label: <span onClick={()=>navigate('/signin')}>Signin</span>,
             key: 'signin',
           },

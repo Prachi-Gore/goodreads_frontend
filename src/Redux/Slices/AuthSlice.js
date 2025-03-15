@@ -9,7 +9,7 @@ const initialState = {
     username: localStorage.getItem('username') || '',
     token: JSON.parse(localStorage.getItem('token')) || {refresh:'',access:''},
     current: localStorage.getItem('current') || 0,
-    accessList:[],
+    // accessList:[],
     userId:localStorage.getItem('userId') || null
 };
 export const signup = createAsyncThunk("auth/signup", async (data) => {
@@ -183,7 +183,7 @@ const authSlice = createSlice({
                 state.username = action?.payload?.data?.username;
                 state.token = action?.payload?.data?.token;
                 state.userId=action?.payload?.data?.id;
-                state.accessList=AUTH_ACCESS;
+                // state.accessList=AUTH_ACCESS;
                 localStorage.setItem("isLoggedIn", (action?.payload?.data != undefined));
                 localStorage.setItem("username", action?.payload?.data?.username);
                 localStorage.setItem("userId", action?.payload?.data?.id);
@@ -195,7 +195,7 @@ const authSlice = createSlice({
                 state.username = '';
                 state.userId = null;
                 state.token = {refresh:'',access:''};
-                state.accessList=[];
+                // state.accessList=[];
                 localStorage.clear();
             }
         })

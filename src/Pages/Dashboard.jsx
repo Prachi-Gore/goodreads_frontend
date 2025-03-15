@@ -34,11 +34,11 @@ function handleBookSearch(e){
   const settings = sliderSettings(bookState.bookList);
     return (
         <Layout>
-             <div className="h-full px-12 pt-28 pb-12 bg-blue-50">
-                <div className='pb-5 flex justify-end pr-14'>
+             <div className="w-full px-12 flex flex-col justify-center  bg-blue-50">
+                <div className='pb-5 flex justify-end pr-14 '>
              <Search allowClear className='max-w-xs book-name-search' placeholder="Search By Book Name" loading={loading}  enterButton onSearch={handleBookSearch} /></div>
            {  bookState.bookList.length > 0 &&  <Slider {...settings} className="">
-            { bookState.bookList.map(book => 
+            { bookState?.bookList?.map(book => 
                 
                 <BookCard key={book.id} data={book}/>
              

@@ -23,7 +23,7 @@ export default function Signup() {
   
     return (
         <Layout>
-        <div className="h-full flex flex-col items-center justify-center bg-blue-50 text-black">
+        <div className="w-full flex flex-col items-center justify-center bg-blue-50 text-black">
             <div className="sm:min-w-[400px]">
                 <Title className="mb-4 justify-center flex" level={3}>Create a new account</Title>
                 <Text className="mb-4 justify-center flex">

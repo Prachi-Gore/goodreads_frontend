@@ -10,7 +10,7 @@ import NotFound from "Pages/NotFound";
 import Shelf from "Pages/Shelf";
 import { Route, Routes } from "react-router-dom";
 
-// import ProtectedRoutes from "./ProtectedRoutes";
+import ProtectedRoutes from "./ProtectedRoutes";
 
 export default function MainRoutes() {
   return (
@@ -22,34 +22,34 @@ export default function MainRoutes() {
       <Route
         path="/reset-password"
         element={
-          // <ProtectedRoutes pageName="reset-password">
+          <ProtectedRoutes pageName="reset-password">
             <ResetPassword />
-          // </ProtectedRoutes>
+           </ProtectedRoutes>
         }
       ></Route>
       <Route path="/book-list" element={<Dashboard />}></Route>
       <Route
         path="/shelf"
         element={
-          // <ProtectedRoutes pageName="shelf">
+          <ProtectedRoutes pageName="shelf">
             <Shelf />
-          // </ProtectedRoutes>
+           </ProtectedRoutes>
         }
       ></Route>
       <Route
         path="/book/show/:id"
         element={
-          // <ProtectedRoutes pageName="book">
+           <ProtectedRoutes pageName="book">
             <BookDescription />
-          // </ProtectedRoutes>
+           </ProtectedRoutes>
         }
       ></Route>
       <Route
         path="/book/edit/:id"
         element={
-          // <ProtectedRoutes pageName="book">
+           <ProtectedRoutes pageName="book">
             <BookDescription />
-          // </ProtectedRoutes>
+           </ProtectedRoutes>
         }
       ></Route>
       <Route path="*" element={<NotFound />}></Route>

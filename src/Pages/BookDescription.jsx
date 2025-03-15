@@ -4,7 +4,6 @@ import { Image } from 'antd';
 import dayjs from 'dayjs';
 import Layout from "Layouts/Layout";
 import { useEffect, useState } from 'react';
-// import { BiUser } from 'react-icons/bi';
 import ReactStars from "react-rating-stars-component";
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
@@ -24,6 +23,7 @@ export default function BookDescription() {
         console.log('Clicked cancel button');
         setEditId(null);
         setOpen(false);
+        reviewForm.resetFields();
       };
  
     const [rows, ] = useState(2);
@@ -38,16 +38,12 @@ export default function BookDescription() {
     const authState = useSelector((state) => state.auth);
     const userId=authState?.userId;
     const reviews=useSelector((state) => state.book.reviews);
-    console.log("reviews list ",reviews)
     const parsToken=authState?.token;
     const accessToken=parsToken?.access;
   
     async function ondeleteReview(reviewId) {
      const response= await dispatch(deleteReview({id:reviewId,accessToken}));
      console.log("response on delete ",response);
-    //  if(response?.payload?.status===200){
-    // //  await getBookDetails(id);
-    //  }
     }
     async function handleOk(values){
       // make add / update api call then close modal on success
@@ -61,8 +57,7 @@ export default function BookDescription() {
         if(response?.payload?.status===200){
           reviewForm.resetFields();
           setOpen(false);
-        // const a=  await getBookDetails(id);
-        // console.log("get book for review",a)
+          setEditId(null)
         }
       }else{
         console.log("id ",id)
@@ -71,7 +66,6 @@ export default function BookDescription() {
       if(response?.payload?.status===201){
         reviewForm.resetFields();
         setOpen(false);
-        // await getBookDetails(id);
       }
       }
       return;
@@ -100,8 +94,8 @@ export default function BookDescription() {
         <Layout>
             {
                 bookDetails?.id && (
-        <div className='  bg-blue-100 h-full flex flex-row justify-center items-center book-description'>
-            <div className=' bg-[#AEA371] h-[81%] mt-[70px] rounded-xl flex justify-between items-center p-10  w-[80%] max-w-[80%] gap-x-4 min-w-[300px]'>
+        <div className='  bg-blue-100 flex flex-row justify-center items-center book-description w-full'>
+            <div className=' bg-[#AEA371]  rounded-xl flex justify-between items-center p-10  w-[80%] max-w-[80%] gap-x-4 min-w-[300px]'>
                 <div className='flex w-[40%] flex-col items-center' >
 <Image
     src={`${bookDetails?.book_cover}`}
@@ -206,6 +200,7 @@ About Book
                  layout="vertical"
                   className="mt-8"
                   autoComplete="off"
+                  // initialValues={{review:editReview}}
                 >
                     <Form.Item
             name="review"
@@ -237,16 +232,18 @@ About Book
             <Flex vertical>
                 <Space className='' align='center' >
                  <Title className=' !mb-0 text-red-950' level={5}>{review?.user?.username}</Title>
-                 <Text className=''>{review?.updated_at?'updated':'created'} {`at `} 
-                 {getFormattedDate(review?.updated_at)||getFormattedDate(review?.created_at)}
+                 <Text className=''>{review?.updated_at?'Updated':'Created'} {`at `} 
+                 {review?.updated_at?getFormattedDate(review?.updated_at):getFormattedDate(review?.created_at)}
             </Text></Space>
                  <Text>{review?.review}</Text>
             </Flex>
           {userId===review?.user?.id && <Space size='large' >
-                <Button icon={<EditOutlined className='text-blue-500 !border-none'/>} disabled={disabled} onClick={()=>{setEditId(review?.id);
+               <Button className='border-none' icon={<EditOutlined className='text-blue-900 !border-none'/>} disabled={disabled} onClick={()=>{setEditId(review?.id);
+                // setEditReview(review.review);
+                reviewForm.setFieldValue('review',review.review);
                     setOpen(true);
                 }}/>
-                <Button icon={<DeleteOutlined className='text-red-600' />} disabled={disabled} onClick={()=>ondeleteReview(review?.id)}/>
+                <Button className='border-none ' icon={<DeleteOutlined className='text-red-600 ' />} disabled={disabled} onClick={()=>ondeleteReview(review?.id)}/>
 
             </Space>}
         </Flex>

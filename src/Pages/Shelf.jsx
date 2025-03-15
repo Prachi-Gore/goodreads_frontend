@@ -26,7 +26,8 @@ const onFinish = async (values) => {
 
     return (
         <Layout>
-            <div className='flex justify-start items-start pt-28'>
+          <div className="w-full">
+            <div className='mt-10'>
                     {/* Updated UI shelf */}
                     <Form className="gap-x-4 flex justify-end w-full px-4" form={form} name="create-shelf" onFinish={onFinish}>
                         <Form.Item
@@ -64,7 +65,7 @@ const onFinish = async (values) => {
         }))||[]]}
       />
     </div>
-                     
+    </div>           
 
         </Layout>
     );

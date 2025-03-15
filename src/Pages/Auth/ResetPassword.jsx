@@ -31,7 +31,7 @@ const authState = useSelector((state) => state.auth);
 
   return (
      <Layout>
-      <div className="h-full flex flex-col items-center justify-center bg-blue-50">
+      <div className="w-full flex flex-col items-center justify-center bg-blue-50">
       <div className="w-1/4 min-w-[300px]">
         <div className="text-white" >
           <Title level={3}  >Change Password</Title>

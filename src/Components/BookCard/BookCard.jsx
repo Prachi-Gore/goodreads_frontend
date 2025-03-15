@@ -1,4 +1,3 @@
-import { BiUser } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 export default function BookCard({ data }) {

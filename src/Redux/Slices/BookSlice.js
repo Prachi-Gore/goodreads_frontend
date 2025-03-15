@@ -169,7 +169,7 @@ const bookSlice = createSlice({
         builder.addCase(createReview.fulfilled,(state,action)=>{
             if(action?.payload?.data){
                 console.log("review add ",action?.payload?.data)
-                state.reviews=[... state.reviews,action?.payload?.data?.data];
+                state.reviews=[action?.payload?.data?.data,... state.reviews];
             }
         });
         builder.addCase(updateReview.fulfilled,(state,action)=>{
@@ -177,7 +177,7 @@ const bookSlice = createSlice({
                 const review=action?.payload?.data?.data;
                 console.log("review update ",review);
                 state.reviews=state.reviews?.map(ritem=>{
-                   return ritem?.id===review?.id ? {...ritem,review:review.review,updated_at:review.updated_at}:ritem
+                   return ritem?.id===review?.id ? {...ritem,review:review.review,updated_at:review.updated_at}:ritem;
             });
             }
         });
