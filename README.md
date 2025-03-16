@@ -1,10 +1,8 @@
-# ReadMitra 📚
-
 <p align="center">
   <img src="images/logoFull.png" alt="Logo">
 </p>
 
-## Introduction
+# ReadMitra 📚
 <p>
   Welcome to <strong style="background-color: yellow; padding: 3px 5px; border-radius: 3px;">ReadMitra</strong>, a Goodreads-inspired book-tracking and review platform where users can rate, review, and organize their books into shelves. 
   <a href="https://readmitra.netlify.app/" style="margin-left: 10px;">➡️ Visit Site!</a>
