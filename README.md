@@ -4,12 +4,11 @@
   <img src="images/logoFull.png" alt="Logo">
 </p>
 
-<p align="center">
-  <a href="https://greattreads.netlify.app/">Check out the live site!</a>
-</p>
-
 ## Introduction
-Welcome to *ReadMitra*, a Goodreads-inspired book-tracking and review platform where users can rate, review, and organize their books into shelves.
+<p>
+  Welcome to <strong style="background-color: yellow; padding: 3px 5px; border-radius: 3px;">ReadMitra</strong>, a Goodreads-inspired book-tracking and review platform where users can rate, review, and organize their books into shelves. 
+  <a href="https://readmitra.netlify.app/" style="margin-left: 10px;">➡️ Visit Site!</a>
+</p>
 
 ## ✨ Features
 ### Authentication
@@ -46,4 +45,4 @@ Welcome to *ReadMitra*, a Goodreads-inspired book-tracking and review platform w
 🔹 Real-time Chat for book discussions.
 
 ## 📩 Contact
-You can find more about me on my website: [https://prachi-gore-portfolio.netlify.app/).
+You can find more about me on my website: https://prachi-gore-portfolio.netlify.app/.
