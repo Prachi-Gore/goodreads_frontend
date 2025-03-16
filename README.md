@@ -8,25 +8,25 @@
   <a href="https://greattreads.netlify.app/">Check out the live site!</a>
 </p>
 
-# Introduction
+## Introduction
 Welcome to *ReadMitra*, a Goodreads-inspired book-tracking and review platform where users can rate, review, and organize their books into shelves.
 
 ## ✨ Features
-# Authentication
+### Authentication
 ✔️ Sign-up, Sign-in, Guest User Mode.
 ✔️ Forgot Password via Mail OTP (Resend OTP option).
 ✔️ Reset Password using old password.
 ✔️ Email,Password validation.
-# Books & Reviews
+### Books & Reviews
 ✔️ Admins can create books via the Django Admin Panel.
 ✔️ Book cover images are stored on Cloudinary and displayed on the UI.
 ✔️ Users can rate and review books (edit/delete their own reviews).
 ✔️ Book details can be viewed and edited.
-# Bookshelves
+### Bookshelves
 ✔️ Users can create bookshelves to organize their collections.
 ✔️ Add or remove books from bookshelves.
 
-# 🛠️ Built with modern web technologies
+## 🛠️ Built with modern web technologies
 ### **Frontend**
 - 🔹 **React.js** – For building the user interface.
 - 🔹 **Redux Toolkit** – For state management.
