@@ -10,11 +10,14 @@
   </a></p>
 
 ## ✨ Features
-### Authentication
+### Authentication (JWT-based)
 ✔️ Sign-up, Sign-in, Guest User Mode.
 ✔️ Forgot Password via Mail OTP (Resend OTP option).
 ✔️ Reset Password using old password.
 ✔️ Email,Password validation.
+✔️ Access Token to authenticate API requests.
+✔️ Refresh Token to obtain a new access token.
+
 ### Books & Reviews
 ✔️ Admins can create books via the Django Admin Panel.
 ✔️ Book cover images are stored on Cloudinary and displayed on the UI.
