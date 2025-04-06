@@ -1,4 +1,7 @@
 // import ForgotPassword from "Pages/Auth/forgotPassword";
+import { Route, Routes } from "react-router-dom";
+import ProtectedRoutes from "./ProtectedRoutes";
+
 import ForgotPassword from "Pages/Auth/ForgotPassword";
 import ResetPassword from "Pages/Auth/ResetPassword";
 import Signin from "Pages/Auth/Signin";
@@ -8,9 +11,12 @@ import Dashboard from "Pages/Dashboard";
 import Home from "Pages/Home";
 import NotFound from "Pages/NotFound";
 import Shelf from "Pages/Shelf";
-import { Route, Routes } from "react-router-dom";
-
-import ProtectedRoutes from "./ProtectedRoutes";
+import ChatArea from "Pages/Chat/chatArea";
+import Group from "Pages/Chat/Group/group";
+import UserStatusList from "Pages/Chat/userStatusList";
+// import ChatArea from "Pages/Chat/ChatArea";
+// import Group from "Pages/Chat/Group/Group";
+// import UserStatusList from "Pages/Chat/UserStatusList";
 
 export default function MainRoutes() {
   return (
@@ -53,6 +59,9 @@ export default function MainRoutes() {
         }
       ></Route>
       <Route path="*" element={<NotFound />}></Route>
+      <Route path="/chat-area" element={<ChatArea />}></Route>
+      <Route path="/group" element={<Group />}></Route>
+      <Route path="/user-status-list" element={<UserStatusList />}></Route>
     </Routes>
   );
 }

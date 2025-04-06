@@ -1,6 +1,5 @@
 import { Avatar, Menu } from "antd";
 import { Header } from 'antd/es/layout/layout';
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "Redux/Slices/AuthSlice";

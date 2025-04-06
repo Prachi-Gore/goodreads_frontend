@@ -1,39 +1,56 @@
+import { Button, Input } from 'antd';
 import Layout from 'Layouts/Layout';
+import { SendOutlined } from "@ant-design/icons";
 
+const users = Array.from({ length: 20 }, (_, i) => `User ${i + 1}`);
+const messages = Array.from({ length: 10 }, (_, i) => ({
+  id: i,
+  text: `Message ${i + 1}`,
+  sender: i % 2 === 0 ? "user" : "friend",
+}));
 const ChatArea = () => {
   return (
    <Layout>
-          {/* Main Content */}
           <div className="flex flex-grow">
         {/* Left Sidebar - User List */}
-        <div className="w-1/3 bg-gray-100 p-4 overflow-y-auto">
-          <h2 className="font-semibold mb-3">Users</h2>
-          <ul className="space-y-2">
-            {Array.from({ length: 20 }, (_, i) => (
+        <aside className="w-1/3 bg-gray-100 flex flex-col">
+          {/* Fixed Header */}
+          <div className="p-4 border-b bg-white">
+            <h2 className="font-semibold">Users</h2>
+          </div>
+
+          {/* Scrollable List */}
+          <ul className="flex-grow overflow-y-auto p-4 space-y-2">
+            {users.map((user, index) => (
               <li
-                key={i}
+                key={index}
                 className="p-3 bg-white shadow rounded-md cursor-pointer hover:bg-gray-200 transition"
               >
-                User {i + 1}
+                {user}
               </li>
             ))}
           </ul>
-        </div>
+        </aside>
 
         {/* Right - Chat Area */}
         <div className="w-2/3 flex flex-col border-l">
-          <div className="flex-grow p-4 overflow-y-auto space-y-3">
+          {/* Fixed Chat Header */}
+          <div className="p-4 border-b bg-white">
             <h2 className="font-semibold">Chat</h2>
-            {Array.from({ length: 10 }, (_, i) => (
+          </div>
+
+          {/* Scrollable Messages */}
+          <div className="flex-grow p-4 overflow-y-auto space-y-3">
+            {messages.map((msg) => (
               <div
-                key={i}
+                key={msg.id}
                 className={`p-3 rounded-md w-fit ${
-                  i % 2
+                  msg.sender === "user"
                     ? "bg-blue-500 text-white self-end"
                     : "bg-gray-200 self-start"
                 }`}
               >
-                Message {i + 1}
+                {msg.text}
               </div>
             ))}
           </div>
@@ -41,10 +58,13 @@ const ChatArea = () => {
           {/* Input Box */}
           <div className="p-4 bg-white border-t flex gap-2">
             <Input className="flex-grow" placeholder="Type a message..." />
-            <Button type="primary">Send</Button>
+            <Button type="primary" icon={<SendOutlined />}>
+              Send
+            </Button>
           </div>
         </div>
       </div>
+
 
    </Layout>
   )
