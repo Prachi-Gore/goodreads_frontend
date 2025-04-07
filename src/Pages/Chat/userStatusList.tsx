@@ -1,5 +1,6 @@
 import { Button, Card, Col, Flex, Row, Space } from "antd"
 import { CheckCircleTwoTone,CloseCircleTwoTone } from '@ant-design/icons';
+import Layout from "Layouts/Layout";
 
 // npm install @ant-design/icons --save
 const data=[
@@ -31,12 +32,13 @@ const data=[
 const UserStatusList = () => {
   console.log("hi")
  return( 
- <Row gutter={[16,16]}>
+  <Layout>
+ <Row gutter={[16,16]} className=" h-fit">
    {
       data?.map((user,userId)=>(
         <Col xs={24} md={8} lg={6} key={userId} >
         <Card>
-          <Flex>
+          <Flex gap={10}>
           {user?.userName}
           <Space>
             {function getUserStausComponent(){
@@ -57,6 +59,7 @@ const UserStatusList = () => {
    }
 
     </Row>
+    </Layout>
     )
 
   
