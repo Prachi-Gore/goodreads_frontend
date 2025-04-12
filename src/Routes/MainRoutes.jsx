@@ -11,14 +11,12 @@ import Dashboard from "Pages/Dashboard";
 import Home from "Pages/Home";
 import NotFound from "Pages/NotFound";
 import Shelf from "Pages/Shelf";
-import ChatArea from "Pages/Chat/chatArea";
-import Group from "Pages/Chat/Group/group";
-import UserStatusList from "Pages/Chat/userStatusList";
-// import ChatArea from "Pages/Chat/ChatArea";
-// import Group from "Pages/Chat/Group/Group";
-// import UserStatusList from "Pages/Chat/UserStatusList";
+import ChatArea from "Pages/Chat/ChatArea";
+import Group from "Pages/Chat/Group/Group";
+import UserStatusList from "Pages/Chat/UserStatusList";
 
-export default function MainRoutes() {
+ const MainRoutes=() => {
+  console.log('MainRoutes MainRoutes')
   return (
     <Routes>
       <Route path="/" element={<Home />}></Route>
@@ -58,10 +56,11 @@ export default function MainRoutes() {
            </ProtectedRoutes>
         }
       ></Route>
-      <Route path="*" element={<NotFound />}></Route>
       <Route path="/chat-area" element={<ChatArea />}></Route>
       <Route path="/group" element={<Group />}></Route>
       <Route path="/user-status-list" element={<UserStatusList />}></Route>
+      <Route path="*" element={<NotFound />}></Route>
     </Routes>
-  );
+  )
 }
+export default MainRoutes
