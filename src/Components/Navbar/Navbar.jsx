@@ -1,8 +1,10 @@
-import { Avatar, Menu } from "antd";
+import { Avatar, Badge, Menu } from "antd";
 import { Header } from 'antd/es/layout/layout';
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "Redux/Slices/AuthSlice";
+import { getNotificationList } from "Redux/Slices/ChatSlice";
 
 export default function Navbar() {
 const navigate=useNavigate();
@@ -24,7 +26,7 @@ function onShelfClick() {
     const parsToken=authState?.token;
     const refreshToken=parsToken?.refresh;
     const accessToken=parsToken?.access;
-
+const notificationList=useSelector((state)=>state.chat.notificationList)
     // console.log('accessToken ',accessToken,typeof parsToken);
     const dispatch = useDispatch();
    async function onLogout() {
@@ -34,7 +36,16 @@ function onShelfClick() {
         navigate('/book-list');
       }
     }
+    useEffect(()=>{
+dispatch(getNotificationList())
+    },[])
     const items = [
+      {
+        label: <Badge count={notificationList?.length} overflowCount={10}>
+        <Avatar shape="square" size="large" />
+      </Badge>,
+      key:'notificationcount'
+      },
       {
         label:<Avatar className='bg-white' icon={<img width="32" height="32" src="https://img.icons8.com/external-smashingstocks-hand-drawn-black-smashing-stocks/32/external-bookshelf-education-smashingstocks-hand-drawn-black-smashing-stocks.png" alt="external-bookshelf-education-smashingstocks-hand-drawn-black-smashing-stocks"/>} shape="square" />,
         key: 'bookfeature',
