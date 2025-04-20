@@ -54,22 +54,25 @@ await dispatch(sendConnection({data:{receiver_id:receiverId},accessToken}));
     
     return( 
   <Layout>
- <Row gutter={[16,16]} className=" h-fit">
+    <div className="bg-green-100  w-full px-4">
+ <Row gutter={[16,16]} className=" flex justify-center  my-4">
    {
       userStatusList?.map((user:userStatusType)=>(
-        <Col xs={24} md={8} lg={6} key={user.id} >
-        <Card>
-          <Flex gap={10}>
-          {user?.username}
+        <Col xs={24} sm={12} md={8} lg={6}  key={user.id} >
+        <Card className="h-full">
+          <Flex gap={20} className='' align='center' justify='center'>
+          <span className="font-mono">{user?.username}</span>
           <Space>
             {function getUserStausComponent(){
               switch(user?.status) {
                 case 'Friends':
-                  return <Button>Pending</Button>
+                   return <CheckCircleTwoTone  twoToneColor="#52c41a" />
+                case 'Pending':
+                  return <Button color="primary" variant="dashed">Pending</Button>
                 case 'Accept_Reject':
-                  return <Space> <Button onClick={()=>{onUpdateConnection(user?.id,'accepted')}} icon={<CheckCircleTwoTone />}>Accept</Button><Button onClick={()=>{onUpdateConnection(user?.id,'rejected')}} icon={<CloseCircleTwoTone />}>Reject</Button></Space>
+                  return <Space> <Button  variant="dashed"  onClick={()=>{onUpdateConnection(user?.id,'accepted')}} icon={<CheckCircleTwoTone  twoToneColor="#52c41a" />}>Accept</Button><Button  variant="dashed" onClick={()=>{onUpdateConnection(user?.id,'rejected')}} icon={<CloseCircleTwoTone twoToneColor="#ff4d4f"  />}>Reject</Button></Space>
                 default:
-                  return <Button onClick={()=>onSendConnection(user?.id)} >Send Connection</Button>
+                  return <Button color="primary" variant="dashed" onClick={()=>onSendConnection(user?.id)} >Send Connection</Button>
               }
             }()}
           </Space>
@@ -80,6 +83,7 @@ await dispatch(sendConnection({data:{receiver_id:receiverId},accessToken}));
    }
 
     </Row>
+    </div>
     </Layout>
     )
 
