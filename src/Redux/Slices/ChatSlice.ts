@@ -50,7 +50,7 @@ toast.promise(response, {
 
 export const updateConnection=createAsyncThunk<any,{data:{sender_id:string,status:string},accessToken:string},{ rejectValue: string }>('chat/sendConnection',async({data,accessToken},{rejectWithValue})=>{
     try{
-    const response=axiosInstance.put('chat/user-status/user-status/',data,{
+    const response=axiosInstance.put('chat/user-status/update/',data,{
         headers:{Authorization:`Bearer ${accessToken}`}
     })
     toast.promise(response, {

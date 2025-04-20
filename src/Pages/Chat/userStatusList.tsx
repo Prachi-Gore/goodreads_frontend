@@ -39,17 +39,25 @@ const UserStatusList = () => {
   const accessToken = useSelector((state:RootState) => state.auth.token.access);
   const userStatusList=useSelector((state:RootState)=>state.chat.userStatusList)
   const dispatch = useDispatch<AppDispatch>()
+  async function fetchUserStatusList(){
+    await dispatch(getUserStatusList(accessToken));
+   //  console.log("user status list ",response)
+     
+}
 async function onSendConnection(receiverId:string){
-await dispatch(sendConnection({data:{receiver_id:receiverId},accessToken}));
+const response=await dispatch(sendConnection({data:{receiver_id:receiverId},accessToken}));
+if(response?.payload?.status===201){
+  fetchUserStatusList();
+}
  }
  async function onUpdateConnection(senderId:string,status:string){
-  await dispatch(updateConnection({data:{sender_id:senderId,status},accessToken}));
-   }
-    async function fetchUserStatusList(){
-      await dispatch(getUserStatusList(accessToken));
-     //  console.log("user status list ",response)
-       
+  const response= await dispatch(updateConnection({data:{sender_id:senderId,status},accessToken}));
+  console.log('onUpdateConnection ',response)
+  if(response?.payload?.status===200){
+    fetchUserStatusList();
   }
+   }
+    
   useEffect(()=>{fetchUserStatusList()},[dispatch])
     
     return( 
