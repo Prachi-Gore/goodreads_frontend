@@ -6,7 +6,8 @@ import { UserStatusListType } from "Redux/type";
 
 const initialState={
     userStatusList:[] as UserStatusListType,
-    notificationList:[]
+    notificationList:[],
+    unreadNotification:0 as number
 }
 export const getUserStatusList=createAsyncThunk<{data:UserStatusListType},string,{ rejectValue: string }>("chat/getUserStatusList",async(accessToken,{rejectWithValue})=>{
     try{
@@ -66,7 +67,7 @@ export const updateConnection=createAsyncThunk<any,{data:{sender_id:string,statu
         }
     })
 
-    export const getNotificationList=createAsyncThunk<{data:any},string,{ rejectValue: string }>("chat/getNotificationList",async(accessToken,{rejectWithValue})=>{
+export const getNotificationList=createAsyncThunk<{data:any},string,{ rejectValue: string }>("chat/getNotificationList",async(accessToken,{rejectWithValue})=>{
         try{
     const response:any=axiosInstance.get('chat/notifications/',{
         headers:{Authorization:`Bearer ${accessToken}`}
@@ -84,7 +85,28 @@ export const updateConnection=createAsyncThunk<any,{data:{sender_id:string,statu
             console.log("error ",error?.response?.data)
             return rejectWithValue(error?.response?.data)
         }
-    })    
+    })  
+// here any is return response type
+export const markAllRead=createAsyncThunk<any,{accessToken:string},{ rejectValue: string }>('chat/notifications/markAllRead',async(accessToken,{rejectWithValue})=>{
+        try{
+        const response=axiosInstance.post('chat/notifications/mark-all-read/',{},{
+            headers:{Authorization:`Bearer ${accessToken}`}
+        })
+        // toast.promise(response, {
+        //             loading: 'Sending Connection',
+        //             success: 'Connection created Successfully',
+        //             error: "Something went wrong"
+        //         });
+                return await response;
+        }catch(error:any) {
+                toast.error("Something went wrong, cannot update read status");
+                return rejectWithValue(error?.response?.data);
+        
+            }
+        
+        
+        })    
+
 const chatSlice=createSlice({
     name: 'chat',
     initialState: initialState,
@@ -99,8 +121,11 @@ const chatSlice=createSlice({
         });
         builder.addCase(getNotificationList.fulfilled,(state,action)=>{
             // console.log("action?.payload ",action)
-            if(action?.payload?.data)
+            const unreadNotification=action?.payload?.data?.filter((notification: { is_read: boolean })=>!notification?.is_read)?.length
+            if(action?.payload?.data){
             state.notificationList=action?.payload?.data
+            state.unreadNotification=unreadNotification
+            }
         });
     }
 })

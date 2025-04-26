@@ -44,3 +44,6 @@
 
 ## 📩 Contact
 You can find more about me on my website: https://prachi-gore-portfolio.netlify.app/.
+
+<!-- how to run project -->
+<!-- yarn dev -->

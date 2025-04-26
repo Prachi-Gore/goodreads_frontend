@@ -35,15 +35,18 @@ function handleBookSearch(e){
     return (
         <Layout>
              <div className="w-full px-12 flex flex-col justify-center  bg-blue-50">
-                <div className='pb-5 flex justify-end pr-14 '>
+               
+           {  bookState.bookList.length > 0 && 
+           <>
+            <div className='pb-5 flex justify-end pr-14 '>
              <Search allowClear className='max-w-xs book-name-search' placeholder="Search By Book Name" loading={loading}  enterButton onSearch={handleBookSearch} /></div>
-           {  bookState.bookList.length > 0 &&  <Slider {...settings} className="">
+            <Slider {...settings} className="">
             { bookState?.bookList?.map(book => 
                 
                 <BookCard key={book.id} data={book}/>
              
             )}
-            </Slider>}
+            </Slider></>}
             </div>
         </Layout>
     );

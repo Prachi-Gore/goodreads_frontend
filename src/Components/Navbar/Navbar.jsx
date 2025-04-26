@@ -4,9 +4,9 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "Redux/Slices/AuthSlice";
-import { getNotificationList } from "Redux/Slices/ChatSlice";
-import { WechatOutlined } from '@ant-design/icons';
-import NotificationContent from "./notificationContent";
+import { getNotificationList, markAllRead } from "Redux/Slices/ChatSlice";
+// import { WechatOutlined } from '@ant-design/icons';
+import NotificationContent from "Components/Navbar/NotificationContent";
 
 export default function Navbar() {
 const navigate=useNavigate();
@@ -29,12 +29,17 @@ function onShelfClick() {
     const refreshToken=parsToken?.refresh;
     const accessToken=parsToken?.access;
 const notificationList=useSelector((state)=>state.chat.notificationList)
+const unreadNotification=useSelector((state)=>state.chat.unreadNotification)
     // console.log('accessToken ',accessToken,typeof parsToken);
     const dispatch = useDispatch();
-    function handleOpenChange(open){
-      if(!open){
+   async function handleOpenChange(open){
+      if(!open&&unreadNotification>0){
         console.log('is open ',open)
-        // mark all message as reda
+        // mark all message as read
+        const response= await  dispatch(markAllRead(accessToken))
+        if(response?.payload?.status===200){
+          dispatch(getNotificationList(accessToken))
+        }
       }
     }
    async function onLogout() {
@@ -69,7 +74,7 @@ console.log("notificationList ",notificationList)
         onOpenChange={handleOpenChange}
         placement="bottomRight"
         arrow
-      > <Badge  count={notificationList?.filter(notification=>!notification?.is_read)?.length} overflowCount={10}>
+      > <Badge  count={unreadNotification} overflowCount={10}>
         <Avatar shape="square"  className='bg-white' icon={<img width="32" height="32" src="https://img.icons8.com/carbon-copy/32/bell--v1.png" alt="bell--v1"/>} />
       </Badge>
 
