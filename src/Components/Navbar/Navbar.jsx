@@ -63,6 +63,14 @@ console.log("notificationList ",notificationList)
           {
             label:<span onClick={()=>navigate('/user-status-list')} >User status list</span>,
             key:'user-status-list'
+          },
+          {
+            label:<span onClick={()=>navigate('/group')} >Group</span>,
+            key:'group'
+          },
+          {
+            label:<span onClick={()=>navigate('/chat-area')} >Chat</span>,
+            key:'chat-area'
           }
         ]
       },

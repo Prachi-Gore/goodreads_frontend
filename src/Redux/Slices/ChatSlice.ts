@@ -106,6 +106,25 @@ export const markAllRead=createAsyncThunk<any,{accessToken:string},{ rejectValue
         
         
         })    
+// create group
+export const createGroup=createAsyncThunk<any,{data:{name:string,member_ids:string[]},accessToken:string},{ rejectValue: string }>("chat/createGroup",async({data,accessToken},{rejectWithValue})=>{
+    try{
+const response:any=axiosInstance.post('chat/group/',data,{
+    headers:{Authorization:`Bearer ${accessToken}`}
+})
+toast.promise(response,{
+    loading: 'Creating group',
+    success: 'Successfully created group',
+    error: "Something went wrong"
+})
+return await response
+
+    }catch(error:any){
+        toast.error("Something went wrong, cannot create group");
+        console.log("error ",error?.response?.data)
+        return rejectWithValue(error?.response?.data)
+    }
+})
 
 const chatSlice=createSlice({
     name: 'chat',

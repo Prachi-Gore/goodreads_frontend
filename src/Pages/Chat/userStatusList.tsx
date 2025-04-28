@@ -41,7 +41,6 @@ const UserStatusList = () => {
   const dispatch = useDispatch<AppDispatch>()
   async function fetchUserStatusList(){
     await dispatch(getUserStatusList(accessToken));
-   //  console.log("user status list ",response)
      
 }
 async function onSendConnection(receiverId:string){
