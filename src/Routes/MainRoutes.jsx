@@ -56,9 +56,10 @@ import UserStatusList from "Pages/Chat/UserStatusList";
            </ProtectedRoutes>
         }
       ></Route>
-      <Route path="/chat-area" element={<ChatArea />}></Route>
-      <Route path="/group" element={<Group />}></Route>
-      <Route path="/user-status-list" element={<UserStatusList />}></Route>
+      <Route path="/chat-area" element={ <ProtectedRoutes pageName="chat-area"><ChatArea /></ProtectedRoutes>}></Route>
+      <Route path="/chat-area/:id" element={ <ProtectedRoutes pageName="chat-area"><ChatArea /></ProtectedRoutes>}></Route>
+      <Route path="/group" element={ <ProtectedRoutes pageName="group"><Group /></ProtectedRoutes>}></Route>
+      <Route path="/user-status-list" element={<ProtectedRoutes pageName="user-status"><UserStatusList /></ProtectedRoutes>}></Route>
       <Route path="*" element={<NotFound />}></Route>
     </Routes>
   )

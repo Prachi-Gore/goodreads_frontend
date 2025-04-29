@@ -1,6 +1,7 @@
 import { Button, Input } from 'antd';
 import Layout from 'Layouts/Layout';
 import { SendOutlined } from "@ant-design/icons";
+import { useNavigate, useParams } from 'react-router-dom';
 
 const users = Array.from({ length: 20 }, (_, i) => `User ${i + 1}`);
 const messages = Array.from({ length: 10 }, (_, i) => ({
@@ -9,6 +10,9 @@ const messages = Array.from({ length: 10 }, (_, i) => ({
   sender: i % 2 === 0 ? "user" : "friend",
 }));
 const ChatArea = () => {
+  const { id } = useParams();
+  const navigate=useNavigate();
+  
   return (
    <Layout>
           <div className="flex flex-grow">
@@ -24,6 +28,7 @@ const ChatArea = () => {
             {users.map((user, index) => (
               <li
                 key={index}
+                onClick={()=>navigate(`/chat-area/${index}`)}
                 className="p-3 bg-white shadow rounded-md cursor-pointer hover:bg-gray-200 transition"
               >
                 {user}
@@ -38,7 +43,7 @@ const ChatArea = () => {
           <div className="p-4 border-b bg-white">
             <h2 className="font-semibold">Chat</h2>
           </div>
-
+{id?<>
           {/* Scrollable Messages */}
           <div className="flex-grow p-4 overflow-y-auto space-y-3">
             {messages.map((msg) => (
@@ -62,6 +67,9 @@ const ChatArea = () => {
               Send
             </Button>
           </div>
+          </>:<div className="flex items-center justify-center h-full text-gray-500 text-xl font-semibold">
+        Please select a user or group to start chatting.
+      </div>}
         </div>
       </div>
 
