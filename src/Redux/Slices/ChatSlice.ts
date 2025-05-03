@@ -7,11 +7,12 @@ import { UserStatusListType } from "Redux/type";
 const initialState={
     userStatusList:[] as UserStatusListType,
     notificationList:[],
-    unreadNotification:0 as number
+    unreadNotification:0 as number,
+    userGroupList:[]
 }
 export const getUserStatusList=createAsyncThunk<{data:UserStatusListType},string,{ rejectValue: string }>("chat/getUserStatusList",async(accessToken,{rejectWithValue})=>{
     try{
-const response:any=axiosInstance.get('chat/user-status/',{
+const response:any=axiosInstance.get('chat/user-group/',{
     headers:{Authorization:`Bearer ${accessToken}`}
 })
 toast.promise(response,{
@@ -31,7 +32,7 @@ return await response
 
 export const sendConnection=createAsyncThunk<any,{data:{receiver_id:string},accessToken:string},{ rejectValue: string }>('chat/sendConnection',async({data,accessToken},{rejectWithValue})=>{
 try{
-const response=axiosInstance.post('chat/user-status/',data,{
+const response=axiosInstance.post('chat/user-group/',data,{
     headers:{Authorization:`Bearer ${accessToken}`}
 })
 toast.promise(response, {
@@ -45,13 +46,11 @@ toast.promise(response, {
         return rejectWithValue(error?.response?.data);
 
     }
-
-
 })
 
 export const updateConnection=createAsyncThunk<any,{data:{sender_id:string,status:string},accessToken:string},{ rejectValue: string }>('chat/sendConnection',async({data,accessToken},{rejectWithValue})=>{
     try{
-    const response=axiosInstance.put('chat/user-status/update/',data,{
+    const response=axiosInstance.put('chat/user-group/status/',data,{
         headers:{Authorization:`Bearer ${accessToken}`}
     })
     toast.promise(response, {
@@ -126,6 +125,27 @@ return await response
     }
 })
 
+export const getUserGroupList=createAsyncThunk<any,string,{ rejectValue: string }>("chat/getUserGroupList",async(accessToken,{rejectWithValue})=>{
+    try{
+const response:any=axiosInstance.get('chat/user-group/combined-list/',{
+    headers:{Authorization:`Bearer ${accessToken}`}
+})
+toast.promise(response,{
+    loading: 'loading user group list',
+    success: 'Successfully loaded all user and group',
+    error: "Something went wrong"
+})
+// console.log('user status data',await response)
+return await response
+
+    }catch(error:any){
+        toast.error("Something went wrong, cannot load user group list");
+        console.log("error ",error?.response?.data)
+        return rejectWithValue(error?.response?.data)
+    }
+})
+
+
 const chatSlice=createSlice({
     name: 'chat',
     initialState: initialState,
@@ -139,12 +159,15 @@ const chatSlice=createSlice({
             state.userStatusList=action?.payload?.data
         });
         builder.addCase(getNotificationList.fulfilled,(state,action)=>{
-            // console.log("action?.payload ",action)
             const unreadNotification=action?.payload?.data?.filter((notification: { is_read: boolean })=>!notification?.is_read)?.length
             if(action?.payload?.data){
             state.notificationList=action?.payload?.data
             state.unreadNotification=unreadNotification
             }
+        });
+        builder.addCase(getUserGroupList.fulfilled,(state,action)=>{
+            if(action?.payload?.data)
+            state.userGroupList=action?.payload?.data
         });
     }
 })

@@ -1,18 +1,28 @@
-import { Button, Input } from 'antd';
+import { Button, Input, Space } from 'antd';
 import Layout from 'Layouts/Layout';
-import { SendOutlined } from "@ant-design/icons";
+import { SendOutlined, UsergroupAddOutlined } from "@ant-design/icons";
 import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getUserGroupList } from 'Redux/Slices/ChatSlice';
+import { useSelector } from 'react-redux';
+import { AppDispatch, RootState } from 'Redux/store';
 
-const users = Array.from({ length: 20 }, (_, i) => `User ${i + 1}`);
-const messages = Array.from({ length: 10 }, (_, i) => ({
-  id: i,
-  text: `Message ${i + 1}`,
-  sender: i % 2 === 0 ? "user" : "friend",
-}));
+
 const ChatArea = () => {
   const { id } = useParams();
   const navigate=useNavigate();
+  const dispatch = useDispatch<AppDispatch>()
+  const accessToken = useSelector((state:RootState) => state.auth.token.access);
+  const userGroupList = useSelector((state:RootState) => state.chat.userGroupList);
+  const messages:any=[]
   
+ useEffect(()=>{
+  dispatch(getUserGroupList(accessToken))
+
+ },[])
+
+
   return (
    <Layout>
           <div className="flex flex-grow">
@@ -25,13 +35,17 @@ const ChatArea = () => {
 
           {/* Scrollable List */}
           <ul className="flex-grow overflow-y-auto p-4 space-y-2">
-            {users.map((user, index) => (
+            {userGroupList.map((item:{type:string,username:string,name:string,id:string}, index:number) => (
               <li
                 key={index}
-                onClick={()=>navigate(`/chat-area/${index}`)}
+                onClick={()=>navigate(`/chat-area/${item.id}`)}
                 className="p-3 bg-white shadow rounded-md cursor-pointer hover:bg-gray-200 transition"
               >
-                {user}
+                <Space className='flex justify-between'>
+                  <span> {item.type==='user'?item.username:item.name}</span>
+                 {item.type==='group' && <span><UsergroupAddOutlined /></span>}
+                </Space>
+               
               </li>
             ))}
           </ul>
