@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import MainRoutes from 'Routes/MainRoutes';
 import './App.css';
 import { useEffect } from 'react';
-import { getNotificationList, getUserStatusList } from 'Redux/Slices/ChatSlice';
+import { getNotificationList, getUserGroupList, getUserStatusList, setShouldFetchChat } from 'Redux/Slices/ChatSlice';
 import { useDispatch } from 'react-redux';
 
 function App() {
@@ -21,10 +21,19 @@ ws.onmessage = async (event) => {
   console.log("Notification received event:", event);
   const data = JSON.parse(event.data);
   console.log("Notification received:", data);
-  await dispatch(getUserStatusList(accessToken));
-  await  dispatch(getNotificationList(accessToken))
+  if(data.type==='user_status'){
+    await dispatch(getUserStatusList(accessToken));
+    await  dispatch(getNotificationList(accessToken))
+  }
+  if(data.type==='group_create'){
+    await dispatch(getUserGroupList(accessToken));
+    await  dispatch(getNotificationList(accessToken))
+  }
+  if(data.type==='chat_message'){
+   dispatch(setShouldFetchChat(true))
+  }
   
-  // dispatch(receiveNotification(data));
+  
 }
 
 ws.onclose = () => {

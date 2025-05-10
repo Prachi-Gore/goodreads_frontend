@@ -8,7 +8,9 @@ const initialState={
     userStatusList:[] as UserStatusListType,
     notificationList:[],
     unreadNotification:0 as number,
-    userGroupList:[]
+    userGroupList:[],
+    chatMessages:[],
+    shouldFetchChat: false,
 }
 export const getUserStatusList=createAsyncThunk<{data:UserStatusListType},string,{ rejectValue: string }>("chat/getUserStatusList",async(accessToken,{rejectWithValue})=>{
     try{
@@ -145,12 +147,52 @@ return await response
     }
 })
 
+export const addMessage=createAsyncThunk<any,{data:any,accessToken:string},{ rejectValue: string }>("chat/addMessage",async({data,accessToken},{rejectWithValue})=>{
+    try{
+const response:any=axiosInstance.post('chat/messages/',data,{
+    headers:{Authorization:`Bearer ${accessToken}`}
+})
+toast.promise(response,{
+    loading: 'Sending Message',
+    success: 'Message sent',
+    error: "Something went wrong"
+})
+return await response
+
+    }catch(error:any){
+        toast.error("Something went wrong, cannot send message");
+        console.log("error ",error?.response?.data)
+        return rejectWithValue(error?.response?.data)
+    }
+})
+
+export const getMessages=createAsyncThunk<any,{chatId:string | undefined,chatType:string | undefined,accessToken:string},{ rejectValue: string }>("chat/getMessages",async({chatId,chatType,accessToken},{rejectWithValue})=>{
+    try{
+const response:any=axiosInstance.get(`chat/messages/?${chatType}=${chatId}`,{
+    headers:{Authorization:`Bearer ${accessToken}`}
+})
+toast.promise(response,{
+    loading: 'loading messages',
+    success: 'Successfully loaded all messages',
+    error: "Something went wrong"
+})
+// console.log('user status data',await response)
+return await response
+
+    }catch(error:any){
+        toast.error("Something went wrong, cannot load messages");
+        console.log("error ",error?.response?.data)
+        return rejectWithValue(error?.response?.data)
+    }
+})
 
 const chatSlice=createSlice({
     name: 'chat',
     initialState: initialState,
     reducers: {
-
+        setShouldFetchChat: (state, action) => {
+            state.shouldFetchChat = action.payload;
+          },
     },
     extraReducers:(builder)=>{
         builder.addCase(getUserStatusList.fulfilled,(state,action)=>{
@@ -166,10 +208,17 @@ const chatSlice=createSlice({
             }
         });
         builder.addCase(getUserGroupList.fulfilled,(state,action)=>{
-            if(action?.payload?.data)
+            if(action?.payload?.data){
             state.userGroupList=action?.payload?.data
+            }
+        });
+        builder.addCase(getMessages.fulfilled,(state,action)=>{
+            if(action?.payload?.data){
+                state.chatMessages=action?.payload?.data
+            }
         });
     }
 })
 
+export const { setShouldFetchChat } = chatSlice.actions;
 export default chatSlice.reducer;
