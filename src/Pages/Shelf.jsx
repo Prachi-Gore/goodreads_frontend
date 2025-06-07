@@ -16,9 +16,9 @@ const onFinish = async (values) => {
     await dispatch(getAllBookShelves());
   };
      function loadShelfs() {
-        if(shelfState.shelfList.length == 0) {
+        // if(shelfState.shelfList.length == 0) {
              dispatch(getAllBookShelves());
-    }
+    // }
   }
     useEffect(() => {
         loadShelfs();

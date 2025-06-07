@@ -73,11 +73,11 @@ export const getNotificationList=createAsyncThunk<{data:any},string,{ rejectValu
     const response:any=axiosInstance.get('chat/notifications/',{
         headers:{Authorization:`Bearer ${accessToken}`}
     })
-    toast.promise(response,{
-        loading: 'loading notification',
-        success: 'Successfully loaded all notifications',
-        error: "Something went wrong"
-    })
+    // toast.promise(response,{
+    //     loading: 'loading notification',
+    //     success: 'Successfully loaded all notifications',
+    //     error: "Something went wrong"
+    // })
     // console.log('user status data',await response)
     return await response
     
