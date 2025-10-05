@@ -1,4 +1,4 @@
-import { DeleteOutlined,EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined,EditOutlined, RobotOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Form, Input, Modal, Select, Space, Tag, Typography } from 'antd';
 import { Image } from 'antd';
 import dayjs from 'dayjs';
@@ -9,13 +9,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import { createReview,deleteReview, getBookDetails, updateBookDetails,updateReview } from 'Redux/Slices/BookSlice';
 import {  getAllBookShelves } from 'Redux/Slices/ShelfSlice';
+import AIQuiz from './AIQuiz';
 
 
 export default function BookDescription() {
     const { Title, Text } = Typography;
+    const [openAgent, setOpenAgent] = useState(false);
     const [editId,setEditId]=useState();
     const [reviewForm]=Form.useForm();
     const [open, setOpen] = useState(false);
+      const showDrawer = () => {
+    setOpenAgent(true);
+  };
+  const onClose = () => {
+    setOpenAgent(false);
+  };
     const showModal = () => {
         setOpen(true);
       };
@@ -91,6 +99,7 @@ export default function BookDescription() {
     }
 
     return (
+      <>
         <Layout>
             {
                 bookDetails?.id && (
@@ -137,10 +146,18 @@ Avg Rating: {4.5}
           className='w-60 max-w-[100%] mt-1'
         />
         </div>
-        <div className='flex-1 h-full'>
+        <div className='flex-1 h-full '>
+          <Flex justify='space-between' className='mb-10'>
             <Title level={4}>
 About Book
             </Title>
+           <Button
+        type="primary"
+        icon={<RobotOutlined />}
+ onClick={showDrawer}      >
+        AI Generated QUIZ
+      </Button>
+      </Flex>
             <div className='overflow-y-auto h-1/2 flex flex-col'>
 
             <Flex justify='space-between'  >
@@ -256,5 +273,7 @@ About Book
         </div>
         </div>)}
         </Layout>
+        <AIQuiz openAgent={openAgent} onClose={onClose}/>
+      </>
     );
 }

@@ -3,13 +3,16 @@ import authSliceReducer from 'Redux/Slices/AuthSlice';
 import bookSliceReducer from 'Redux/Slices/BookSlice';
 import shelfSliceReducer from 'Redux/Slices/ShelfSlice';
 import chatSliceReducer from 'Redux/Slices/ChatSlice';
+import quizSliceReducer from 'Redux/Slices/AIQuiz';
+
 
 export default configureStore({
     reducer: {
         auth: authSliceReducer,
         book: bookSliceReducer,
         shelf: shelfSliceReducer,
-        chat: chatSliceReducer
+        chat: chatSliceReducer,
+        quiz:quizSliceReducer
     },
     devTools: true,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
