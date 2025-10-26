@@ -5,9 +5,10 @@ import { quizType,quizEvaluationType } from "Redux/type";
 
 const initialState={
     quizList:[] as quizType[],
-    quizEvaluation:{} as quizEvaluationType
+    quizEvaluation:{} as quizEvaluationType,
+    isQuizGenerating:false as boolean
 }
-export const quizGenerate=createAsyncThunk<any,{data:{book_id:string},accessToken:string},{ rejectValue: string }>('chat/sendConnection',async({data,accessToken},{rejectWithValue})=>{
+export const quizGenerate=createAsyncThunk<any,{data:{book_id:string},accessToken:string},{ rejectValue: string }>('generateQuiz',async({data,accessToken},{rejectWithValue})=>{
 try{
 const response=axiosInstance.post('generate_quiz/',data,{
     headers:{Authorization:`Bearer ${accessToken}`}
@@ -25,10 +26,10 @@ toast.promise(response, {
     }
 })
 
-export const quizEvaluation=createAsyncThunk<any,{data:{book_id:string},accessToken:string},{ rejectValue: string }>('chat/sendConnection',async({data,accessToken},{rejectWithValue})=>{
+export const quizEvaluation=createAsyncThunk<any,{data:{quiz_details:any[],user_answers:string[],book_id:string},accessToken:string},{ rejectValue: string }>('evaluateAnswers',async({data,accessToken},{rejectWithValue})=>{
 try{
 const response=axiosInstance.post('evaluate_answers/',data,{
-    headers:{Authorization:`Bearer ${accessToken}`}
+    headers:{Authorization:`Bearer ${accessToken}`,"Content-Type": "application/json"}
 })
 toast.promise(response, {
             loading: 'Evaluating Answer',
@@ -47,18 +48,31 @@ const quizSlice=createSlice(
     {
         name:'quiz',
         initialState: initialState,
-        reducers:{},
+        reducers:{
+            clearQuizEvaluation(state) {
+   state.quizEvaluation = { score: 0, feedback: "" };
+  }
+        },
         extraReducers:(builder)=>{
                 builder.addCase(quizGenerate.fulfilled,(state,action)=>{
-                    if(action?.payload?.data)
-                    state.quizList=action?.payload?.data
+                    // console.log('quizGenerate data',action)
+                    if(action?.payload?.data?.quiz)
+                    state.quizList=action?.payload?.data?.quiz
+                    state.isQuizGenerating=false
                 });
-                   builder.addCase(quizEvaluation.fulfilled,(state,action)=>{
-                    if(action?.payload?.data)
-                    state.quizEvaluation=action?.payload?.data
+                 builder.addCase(quizGenerate.pending,(state,action)=>{
+                    state.isQuizGenerating=true
+                });
+                builder.addCase(quizEvaluation.fulfilled,(state,action)=>{
+                                       console.log('quizEvaluation data',action)
+                    const response=action?.payload?.data
+                    if(response){
+state.quizEvaluation={score:response?.score,feedback:response?.feedback}
+                    }
+                    
                 });
             }
     }
 )
-
+export const { clearQuizEvaluation } = quizSlice.actions
 export default quizSlice.reducer;

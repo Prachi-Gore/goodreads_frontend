@@ -21,9 +21,7 @@ export default function BookDescription() {
       const showDrawer = () => {
     setOpenAgent(true);
   };
-  const onClose = () => {
-    setOpenAgent(false);
-  };
+ 
     const showModal = () => {
         setOpen(true);
       };
@@ -109,7 +107,7 @@ export default function BookDescription() {
 <Image
     src={`${bookDetails?.book_cover}`}
     preview={false}
-    className='max-w-[300px]'
+    className='max-w-[300px] max-h-56'
   />
 <Title level={4} className='flex-wrap mt-2'>
 {bookDetails?.title}
@@ -154,6 +152,7 @@ About Book
            <Button
         type="primary"
         icon={<RobotOutlined />}
+        
  onClick={showDrawer}      >
         AI Generated QUIZ
       </Button>
@@ -273,7 +272,7 @@ About Book
         </div>
         </div>)}
         </Layout>
-        <AIQuiz openAgent={openAgent} onClose={onClose}/>
+        <AIQuiz openAgent={openAgent} setOpenAgent={setOpenAgent} bookId={id}/>
       </>
     );
 }

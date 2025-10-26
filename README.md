@@ -47,3 +47,7 @@ You can find more about me on my website: https://prachi-gore-portfolio.netlify.
 
 <!-- how to run project -->
 <!-- yarn dev -->
+
+<!-- local user -->
+<!-- test@gmail.com
+123456 -->
