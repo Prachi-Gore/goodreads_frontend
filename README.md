@@ -58,8 +58,11 @@
 - 🔹 **Frontend**: Deployed on **Netlify**.
 - 🔹 **Backend**: Deployed on **Render**.
 
- ## 🚀 Upcoming Features
-🔹 Real-time Chat for book discussions.
+ <!--
+### 🚀 Upcoming Features
+
+- 🔹 Real-time Chat for book discussions.
+-->
 
 ## 📩 Contact
 You can find more about me on my website: https://prachi-gore-portfolio.netlify.app/.
